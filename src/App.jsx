@@ -5,7 +5,7 @@ import Home from "./pages/Home.jsx";
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="flex w-screen h-screen border">
+      <div className="flex w-screen h-screen ">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />

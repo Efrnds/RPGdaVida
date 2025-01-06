@@ -8,7 +8,8 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     navigate("/home");
   };
 
@@ -21,7 +22,7 @@ export default function Login() {
         </p>
         <form
           onSubmit={handleLogin}
-          className="flex flex-col w-full gap-10 mx-auto sm:w-1/2"
+          className="flex flex-col w-full gap-10 px-4 mx-auto sm:w-1/2 sm:px-0"
         >
           <div className="flex flex-col">
             <label htmlFor="username" className="text-lg text-slate-500">
