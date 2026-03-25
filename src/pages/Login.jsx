@@ -1,5 +1,6 @@
 import { FaRegEye, FaRegEyeSlash, FaRegUser } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Login() {
@@ -7,10 +8,10 @@ export default function Login() {
   const [onPassword, setOnPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/home");
+    router.push("/home");
   };
 
   return (

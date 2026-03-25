@@ -1,3 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+	--color-primary: #47DD4C;
+	--color-primaryHover: #35CB3A;
+	--color-grayMd: #737373;
+	--color-graySm: #d9d9d9;
+}
