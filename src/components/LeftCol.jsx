@@ -353,30 +353,3 @@ export default function LeftCol() {
     </section>
   );
 }
-aySm">
-              Nenhuma skill criada
-            </p>
-          ) : null}
-        </div>
-
-        <button
-          onClick={homeMode ? createQuickSkill : createSkill}
-          className="w-full py-1.5 text-xs font-semibold uppercase text-grayMd border border-graySm rounded drop-shadow-sm bg-white hover:bg-gray-50 transition-colors"
-        >
-          Nova Skill +
-        </button>
-
-        {!homeMode ? (
-          <ConfirmModal
-            open={Boolean(skillToDelete)}
-            title="Excluir skill"
-            description={`Deseja excluir a skill "${skillToDelete?.title || ""}"?`}
-            confirmLabel="Excluir"
-            onCancel={() => setSkillToDelete(null)}
-            onConfirm={() => deleteSkill(skillToDelete.id)}
-          />
-        ) : null}
-      </div>
-    </section>
-  );
-}
