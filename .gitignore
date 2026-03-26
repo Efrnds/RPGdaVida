@@ -9,4 +9,9 @@ pnpm-lock.yaml
 .env.local
 .env.*.local
 
+data/rpg-da-vida.sqlite
+data/rpg-da-vida.sqlite-shm
+data/rpg-da-vida.sqlite-wal
+
 data
+
