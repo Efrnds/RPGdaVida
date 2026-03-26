@@ -1,10 +1,11 @@
 import { PropTypes } from "prop-types";
 
-export default function Heart({ vidaTotal }) {
+export default function Heart({ vidaTotal, vidaAtual }) {
   const hearts = [];
-  const vidaAtual = vidaTotal - 200;
+
+  const current = Math.max(0, Math.min(vidaAtual, vidaTotal));
   for (let i = 0; i < vidaTotal / 100; i++) {
-    if (i < vidaAtual / 100) {
+    if (i < current / 100) {
       hearts.push("🖤");
     } else {
       hearts.push("🤍");
@@ -13,7 +14,7 @@ export default function Heart({ vidaTotal }) {
   return (
     <div>
       <h2>
-        HP: {hearts} {vidaAtual}/{vidaTotal}
+        HP: {hearts} {current}/{vidaTotal}
       </h2>
     </div>
   );
@@ -21,4 +22,5 @@ export default function Heart({ vidaTotal }) {
 
 Heart.propTypes = {
   vidaTotal: PropTypes.number.isRequired,
+  vidaAtual: PropTypes.number.isRequired,
 };

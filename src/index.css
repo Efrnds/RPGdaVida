@@ -6,3 +6,281 @@
 	--color-grayMd: #737373;
 	--color-graySm: #d9d9d9;
 }
+
+:root[data-theme="light"] {
+	color-scheme: light;
+}
+
+:root[data-theme="light"] body {
+	background: #f3f4f6;
+	color: #23262f;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+}
+
+:root[data-theme="dark"] body {
+	background: #101114;
+	color: #e6e7eb;
+}
+
+:root[data-theme="dark"] .bg-zinc-100 {
+	background-color: #101114 !important;
+}
+
+:root[data-theme="dark"] .bg-white,
+:root[data-theme="dark"] .bg-zinc-50,
+:root[data-theme="dark"] .bg-zinc-100 {
+	color: #e6e7eb;
+}
+
+:root[data-theme="dark"] .bg-white {
+	background-color: #181a20 !important;
+}
+
+:root[data-theme="dark"] .bg-zinc-50 {
+	background-color: #1e2128 !important;
+}
+
+:root[data-theme="dark"] .text-grayMd {
+	color: #bfc3d1 !important;
+}
+
+:root[data-theme="dark"] .text-black {
+	color: #f5f6f8 !important;
+}
+
+:root[data-theme="dark"] .border-graySm {
+	border-color: #313544 !important;
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select {
+	background-color: #11141a !important;
+	color: #e6e7eb !important;
+	border-color: #313544 !important;
+}
+
+:root[data-theme="dark"] .mdxeditor,
+:root[data-theme="dark"] .mdxeditor-popup-container,
+:root[data-theme="dark"] .mdxeditor-toolbar {
+	background: #11141a !important;
+	color: #e6e7eb !important;
+	border-color: #313544 !important;
+}
+
+:root[data-theme="dark"] .mdxeditor-content-editable {
+	background: #151923 !important;
+}
+
+:root[data-reduced-motion="1"] *,
+:root[data-reduced-motion="1"] *::before,
+:root[data-reduced-motion="1"] *::after {
+	animation-duration: 0ms !important;
+	transition-duration: 0ms !important;
+	scroll-behavior: auto !important;
+}
+
+:root[data-compact-ui="1"] .p-4 { padding: 0.75rem !important; }
+:root[data-compact-ui="1"] .p-3 { padding: 0.6rem !important; }
+:root[data-compact-ui="1"] .gap-4 { gap: 0.75rem !important; }
+:root[data-compact-ui="1"] .gap-3 { gap: 0.6rem !important; }
+:root[data-compact-ui="1"] .text-4xl { font-size: 2rem !important; }
+
+button,
+a,
+input,
+textarea,
+select {
+	transition: 160ms ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+	outline: 2px solid #47DD4C;
+	outline-offset: 2px;
+}
+
+button {
+	cursor: pointer;
+}
+
+.mdx-preview {
+	color: #333;
+	line-height: 1.6;
+	font-size: 14px;
+}
+
+.mdx-preview h1,
+.mdx-preview h2,
+.mdx-preview h3,
+.mdx-preview h4 {
+	margin: 0.9rem 0 0.5rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.mdx-preview h1 { font-size: 1.7rem; }
+.mdx-preview h2 { font-size: 1.35rem; }
+.mdx-preview h3 { font-size: 1.1rem; }
+
+.mdx-preview p,
+.mdx-preview ul,
+.mdx-preview ol,
+.mdx-preview pre,
+.mdx-preview blockquote {
+	margin: 0.55rem 0;
+}
+
+.mdx-preview ul,
+.mdx-preview ol {
+	padding-left: 1.25rem;
+}
+
+.mdx-preview code {
+	padding: 0.1rem 0.35rem;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-size: 12px;
+	background: #ececec;
+	border-radius: 6px;
+}
+
+.mdx-preview pre {
+	padding: 0.75rem;
+	overflow: auto;
+	background: #1f1f1f;
+	border-radius: 8px;
+	color: #fff;
+}
+
+.mdx-preview pre code {
+	padding: 0;
+	background: transparent;
+	font-size: 12px;
+}
+
+.mdx-preview blockquote {
+	padding-left: 0.75rem;
+	border-left: 3px solid #d9d9d9;
+	color: #666;
+}
+
+@media (max-width: 767px) {
+	:root[data-theme="light"] .mobile-rpg-header,
+	:root[data-theme="light"] .mobile-rpg-nav {
+		background: rgba(255, 255, 255, 0.96) !important;
+		border-color: #d6dae4 !important;
+	}
+
+	:root[data-theme="light"] .mobile-rpg-header-kicker,
+	:root[data-theme="light"] .mobile-rpg-header-profile,
+	:root[data-theme="light"] .mobile-rpg-nav-link {
+		color: #60697d !important;
+	}
+
+	:root[data-theme="light"] .mobile-rpg-header-title,
+	:root[data-theme="light"] .mobile-rpg-nav-link.is-active {
+		color: #151922 !important;
+	}
+
+	:root[data-theme="dark"] .mobile-rpg-header,
+	:root[data-theme="dark"] .mobile-rpg-nav {
+		background: rgba(13, 16, 24, 0.95) !important;
+		border-color: #31384b !important;
+	}
+
+	:root[data-theme="dark"] .mobile-rpg-header-kicker,
+	:root[data-theme="dark"] .mobile-rpg-header-profile,
+	:root[data-theme="dark"] .mobile-rpg-nav-link {
+		color: #c6cddd !important;
+	}
+
+	:root[data-theme="dark"] .mobile-rpg-header-title,
+	:root[data-theme="dark"] .mobile-rpg-nav-link.is-active {
+		color: #eef1f8 !important;
+	}
+
+	:root[data-theme="dark"] .home-shell {
+		background:
+			radial-gradient(circle at top, rgba(68, 85, 120, 0.25), transparent 45%),
+			#0f1116;
+	}
+
+	:root[data-theme="light"] .home-shell {
+		background:
+			radial-gradient(circle at top, rgba(120, 160, 230, 0.18), transparent 48%),
+			#f3f4f6;
+	}
+
+	:root[data-theme="dark"] .home-shell .bg-zinc-100,
+	:root[data-theme="light"] .home-shell .bg-zinc-100 {
+		background-color: transparent !important;
+	}
+
+	:root[data-theme="dark"] .home-shell .bg-white,
+	:root[data-theme="dark"] .home-shell .bg-zinc-50,
+	:root[data-theme="dark"] .home-shell .bg-zinc-100 {
+		background-color: rgba(24, 28, 36, 0.92) !important;
+		color: #e7ebf3;
+	}
+
+	:root[data-theme="light"] .home-shell .bg-white,
+	:root[data-theme="light"] .home-shell .bg-zinc-50,
+	:root[data-theme="light"] .home-shell .bg-zinc-100 {
+		background-color: rgba(255, 255, 255, 0.95) !important;
+		color: #2b2f3a;
+	}
+
+	:root[data-theme="dark"] .home-shell .text-grayMd {
+		color: #c6cddd !important;
+	}
+
+	:root[data-theme="light"] .home-shell .text-grayMd {
+		color: #667085 !important;
+	}
+
+	:root[data-theme="dark"] .home-shell .text-black {
+		color: #eef1f8 !important;
+	}
+
+	:root[data-theme="light"] .home-shell .text-black {
+		color: #222733 !important;
+	}
+
+	:root[data-theme="dark"] .home-shell .border-graySm {
+		border-color: #31384b !important;
+	}
+
+	:root[data-theme="light"] .home-shell .border-graySm {
+		border-color: #d6dae4 !important;
+	}
+
+	:root[data-theme="dark"] .home-shell hr {
+		border-color: #31384b !important;
+	}
+
+	:root[data-theme="light"] .home-shell hr {
+		border-color: #d6dae4 !important;
+	}
+
+	:root[data-theme="dark"] .home-shell input,
+	:root[data-theme="dark"] .home-shell textarea,
+	:root[data-theme="dark"] .home-shell select {
+		background-color: #111622 !important;
+		color: #e7ebf3 !important;
+		border-color: #31384b !important;
+	}
+
+	:root[data-theme="light"] .home-shell input,
+	:root[data-theme="light"] .home-shell textarea,
+	:root[data-theme="light"] .home-shell select {
+		background-color: #ffffff !important;
+		color: #1f2430 !important;
+		border-color: #d6dae4 !important;
+	}
+}

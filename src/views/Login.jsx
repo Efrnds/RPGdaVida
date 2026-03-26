@@ -4,26 +4,20 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FaRegEye, FaRegEyeSlash, FaRegUser } from "react-icons/fa6";
+import { getDeviceId } from "../lib/deviceId";
 
 const REMEMBER_KEY = "remembered-username";
-
-function getDeviceId() {
-  if (typeof window === "undefined") return "anonymous-device";
-
-  const existing = window.localStorage.getItem("rpg-device-id");
-  if (existing) return existing;
-
-  const created = window.crypto?.randomUUID?.() ?? `device-${Date.now()}`;
-  window.localStorage.setItem("rpg-device-id", created);
-  return created;
-}
 
 export default function Login() {
   const [onUsername, setOnUsername] = useState(false);
   const [onPassword, setOnPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
   const [deviceId, setDeviceId] = useState("anonymous-device");
@@ -31,6 +25,23 @@ export default function Login() {
   useEffect(() => {
     const id = getDeviceId();
     setDeviceId(id);
+
+    async function checkSession() {
+      try {
+        const response = await fetch("/api/auth/session", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) return;
+        const data = await response.json();
+        if (data?.authenticated) {
+          router.push("/home");
+        }
+      } catch {
+        // fluxo segue para login
+      }
+    }
 
     async function loadRememberedUser() {
       try {
@@ -55,10 +66,25 @@ export default function Login() {
     }
 
     loadRememberedUser();
-  }, []);
+    checkSession();
+  }, [router]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (!username.trim()) {
+      setErrorMessage("Informe seu e-mail.");
+      return;
+    }
+
+    if (!password.trim()) {
+      setErrorMessage("Informe sua senha.");
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       await fetch(`/api/settings/${REMEMBER_KEY}`, {
@@ -71,11 +97,31 @@ export default function Login() {
           value: rememberMe && username.trim() ? username.trim() : null,
         }),
       });
-    } catch {
-      // Se falhar, segue fluxo de login normalmente.
-    }
 
-    router.push("/home");
+      const authResponse = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: username.trim(),
+          password,
+        }),
+      });
+
+      if (!authResponse.ok) {
+        const errorData = await authResponse.json().catch(() => ({}));
+        setErrorMessage(errorData?.error || "Login inválido.");
+        return;
+      }
+
+      setSuccessMessage("Login realizado com sucesso.");
+      router.push("/home");
+    } catch {
+      setErrorMessage("Falha de rede ao tentar logar.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -84,6 +130,17 @@ export default function Login() {
       <p className="text-center text-slate-500">
         Faça login para acessar a sua conta
       </p>
+
+      {errorMessage ? (
+        <p className="p-2 text-sm text-red-700 bg-red-100 rounded-md">{errorMessage}</p>
+      ) : null}
+
+      {successMessage ? (
+        <p className="p-2 text-sm text-green-700 bg-green-100 rounded-md">
+          {successMessage}
+        </p>
+      ) : null}
+
       <form
         onSubmit={handleLogin}
         className="flex flex-col w-full gap-10 px-4 mx-auto sm:w-1/2 sm:px-0"
@@ -125,6 +182,8 @@ export default function Login() {
               type={showPassword ? "text" : "password"}
               name="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               onFocus={() => setOnPassword(true)}
               onBlur={() => setOnPassword(false)}
               className="flex-1 w-full focus:outline-none text-slate-600"
@@ -164,9 +223,10 @@ export default function Login() {
         </div>
         <button
           type="submit"
+          disabled={isSubmitting}
           className="w-full p-2 text-xl font-bold text-white transition rounded-md bg-primary hover:bg-primaryHover hover:shadow-md"
         >
-          Login
+          {isSubmitting ? "Entrando..." : "Login"}
         </button>
       </form>
     </div>
