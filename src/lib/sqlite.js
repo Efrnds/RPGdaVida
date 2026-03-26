@@ -32,6 +32,8 @@ db.exec(`
     coins INTEGER NOT NULL,
     hp_total INTEGER NOT NULL,
     hp_current INTEGER NOT NULL,
+    stamina_total INTEGER NOT NULL DEFAULT 100,
+    stamina_current INTEGER NOT NULL DEFAULT 100,
     main_objective TEXT,
     secondary_objective TEXT,
     strengths TEXT,
@@ -639,10 +641,11 @@ export function upsertProfile(deviceId, payload) {
   const stmt = db.prepare(`
     INSERT INTO profile (
       device_id, username, level, coins, hp_total, hp_current,
+      stamina_total, stamina_current,
       main_objective, secondary_objective, strengths, weaknesses,
       goals_completion, xp_current, xp_target, updated_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(device_id)
     DO UPDATE SET
       username = excluded.username,
@@ -650,6 +653,8 @@ export function upsertProfile(deviceId, payload) {
       coins = excluded.coins,
       hp_total = excluded.hp_total,
       hp_current = excluded.hp_current,
+      stamina_total = excluded.stamina_total,
+      stamina_current = excluded.stamina_current,
       main_objective = excluded.main_objective,
       secondary_objective = excluded.secondary_objective,
       strengths = excluded.strengths,
@@ -667,6 +672,8 @@ export function upsertProfile(deviceId, payload) {
     toInteger(payload?.coins, 0),
     Math.max(toInteger(payload?.hp_total, 100), 100),
     Math.max(toInteger(payload?.hp_current, 0), 0),
+    Math.max(toInteger(payload?.stamina_total, 100), 100),
+    Math.max(toInteger(payload?.stamina_current, 0), 0),
     payload?.main_objective ?? "",
     payload?.secondary_objective ?? "",
     payload?.strengths ?? "",
@@ -682,7 +689,7 @@ export function upsertProfile(deviceId, payload) {
 
 export function applyProfileProgress(
   deviceId,
-  { coinsDelta = 0, xpDelta = 0, hpDelta = 0 },
+  { coinsDelta = 0, xpDelta = 0, hpDelta = 0, staminaDelta = 0 },
 ) {
   const profile = getProfile(deviceId);
   if (!profile) return null;
@@ -696,6 +703,13 @@ export function applyProfileProgress(
     Math.min(
       toInteger(profile.hp_total, 100),
       toInteger(profile.hp_current, 0) + toInteger(hpDelta, 0),
+    ),
+  );
+  let nextStamina = Math.max(
+    0,
+    Math.min(
+      toInteger(profile.stamina_total, 100),
+      toInteger(profile.stamina_current, 100) + toInteger(staminaDelta, 0),
     ),
   );
 
@@ -716,6 +730,7 @@ export function applyProfileProgress(
     ...profile,
     coins: nextCoins,
     hp_current: nextHp,
+    stamina_current: nextStamina,
     level: nextLevel,
     xp_current: nextXpCurrent,
     xp_target: nextXpTarget,
