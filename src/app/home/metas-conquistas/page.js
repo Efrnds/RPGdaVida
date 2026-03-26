@@ -13,6 +13,7 @@ const defaultForm = {
   current_value: 0,
   reward_coins: 30,
   reward_xp: 20,
+  due_date: "",
 };
 
 export default function MetasConquistasPage() {
@@ -115,6 +116,7 @@ export default function MetasConquistasPage() {
       current_value: goal.current_value,
       reward_coins: goal.reward_coins,
       reward_xp: goal.reward_xp,
+      due_date: goal.due_date || "",
     });
   };
 
@@ -189,12 +191,26 @@ export default function MetasConquistasPage() {
                           }))
                         }
                       />
+                      <input
+                        className="p-1 border rounded-md border-graySm md:col-span-2"
+                        type="datetime-local"
+                        value={goalDraft.due_date || ""}
+                        onChange={(e) =>
+                          setGoalDraft((c) => ({
+                            ...c,
+                            due_date: e.target.value,
+                          }))
+                        }
+                      />
                     </div>
                   ) : (
                     <>
                       <p className="font-semibold">{goal.title}</p>
                       <p className="text-xs text-grayMd">
                         {goal.category} • {goal.status}
+                        {goal.due_date
+                          ? ` • Prazo: ${new Date(goal.due_date).toLocaleString("pt-BR").replace(", ", " às ")}`
+                          : ""}
                       </p>
                     </>
                   )}
@@ -300,6 +316,19 @@ export default function MetasConquistasPage() {
               value={form.category}
               onChange={(e) =>
                 setForm((c) => ({ ...c, category: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Prazo (Data e Hora)
+            </span>
+            <input
+              type="datetime-local"
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              value={form.due_date || ""}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, due_date: e.target.value }))
               }
             />
           </label>
