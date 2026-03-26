@@ -14,6 +14,7 @@ const defaultForm = {
   reward_coins: 30,
   reward_xp: 20,
   due_date: "",
+  repeatable: false,
 };
 
 export default function MetasConquistasPage() {
@@ -117,6 +118,7 @@ export default function MetasConquistasPage() {
       reward_coins: goal.reward_coins,
       reward_xp: goal.reward_xp,
       due_date: goal.due_date || "",
+      repeatable: goal.repeatable === 1,
     });
   };
 
@@ -173,39 +175,112 @@ export default function MetasConquistasPage() {
               <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                 <div className="flex-1">
                   {isEditing ? (
-                    <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-                      <input
-                        className="p-1 border rounded-md border-graySm"
-                        value={goalDraft.title || ""}
-                        onChange={(e) =>
-                          setGoalDraft((c) => ({ ...c, title: e.target.value }))
-                        }
-                      />
-                      <input
-                        className="p-1 border rounded-md border-graySm"
-                        value={goalDraft.category || ""}
-                        onChange={(e) =>
-                          setGoalDraft((c) => ({
-                            ...c,
-                            category: e.target.value,
-                          }))
-                        }
-                      />
-                      <input
-                        className="p-1 border rounded-md border-graySm md:col-span-2"
-                        type="datetime-local"
-                        value={goalDraft.due_date || ""}
-                        onChange={(e) =>
-                          setGoalDraft((c) => ({
-                            ...c,
-                            due_date: e.target.value,
-                          }))
-                        }
-                      />
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 mt-1 mb-2">
+                      <label className="grid gap-1 md:col-span-2">
+                        <span className="text-xs font-semibold text-grayMd">
+                          Título
+                        </span>
+                        <input
+                          className="p-1.5 border rounded-md border-graySm bg-zinc-50"
+                          value={goalDraft.title || ""}
+                          onChange={(e) =>
+                            setGoalDraft((c) => ({
+                              ...c,
+                              title: e.target.value,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="grid gap-1">
+                        <span className="text-xs font-semibold text-grayMd">
+                          Categoria
+                        </span>
+                        <input
+                          className="p-1.5 border rounded-md border-graySm bg-zinc-50"
+                          value={goalDraft.category || ""}
+                          onChange={(e) =>
+                            setGoalDraft((c) => ({
+                              ...c,
+                              category: e.target.value,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="grid gap-1">
+                        <span className="text-xs font-semibold text-grayMd">
+                          Prazo
+                        </span>
+                        <input
+                          className="p-1.5 border rounded-md border-graySm bg-zinc-50"
+                          type="datetime-local"
+                          value={goalDraft.due_date || ""}
+                          onChange={(e) =>
+                            setGoalDraft((c) => ({
+                              ...c,
+                              due_date: e.target.value,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="grid gap-1">
+                        <span className="text-xs font-semibold text-orange-500">
+                          Ouro (Prêmio)
+                        </span>
+                        <input
+                          className="p-1.5 border rounded-md border-orange-200 bg-orange-50"
+                          type="number"
+                          value={goalDraft.reward_coins}
+                          onChange={(e) =>
+                            setGoalDraft((c) => ({
+                              ...c,
+                              reward_coins: Number(e.target.value) || 0,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="grid gap-1">
+                        <span className="text-xs font-semibold text-blue-500">
+                          XP (Prêmio)
+                        </span>
+                        <input
+                          className="p-1.5 border rounded-md border-blue-200 bg-blue-50"
+                          type="number"
+                          value={goalDraft.reward_xp}
+                          onChange={(e) =>
+                            setGoalDraft((c) => ({
+                              ...c,
+                              reward_xp: Number(e.target.value) || 0,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="flex items-center gap-2 md:col-span-2 pt-1 mb-2">
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-primary rounded border-graySm"
+                          checked={goalDraft.repeatable || false}
+                          onChange={(e) =>
+                            setGoalDraft((c) => ({
+                              ...c,
+                              repeatable: e.target.checked,
+                            }))
+                          }
+                        />
+                        <span className="text-xs font-semibold text-grayMd">
+                          Meta Repetível (reseta progresso ao concluir)
+                        </span>
+                      </label>
                     </div>
                   ) : (
                     <>
-                      <p className="font-semibold">{goal.title}</p>
+                      <p className="font-semibold flex items-center gap-2">
+                        {goal.title}
+                        {goal.repeatable === 1 ? (
+                          <span className="text-[10px] px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded-md font-bold uppercase tracking-wider">
+                            Repetível
+                          </span>
+                        ) : null}
+                      </p>
                       <p className="text-xs text-grayMd">
                         {goal.category} • {goal.status}
                         {goal.due_date
@@ -398,6 +473,19 @@ export default function MetasConquistasPage() {
               />
             </label>
           </div>
+          <label className="flex items-center gap-2 md:col-span-2 pt-1 pb-1">
+            <input
+              type="checkbox"
+              className="w-4 h-4 text-primary rounded border-graySm"
+              checked={form.repeatable || false}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, repeatable: e.target.checked }))
+              }
+            />
+            <span className="text-sm font-semibold text-grayMd">
+              Meta Repetível (reseta progresso ao concluir)
+            </span>
+          </label>
           <button
             onClick={createGoal}
             className="p-2 mt-2 font-bold text-white rounded-md md:col-span-2 bg-primary hover:bg-green-700 transition-colors"

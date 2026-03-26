@@ -143,11 +143,20 @@ db.exec(`
     reward_coins INTEGER NOT NULL,
     reward_xp INTEGER NOT NULL,
     due_date TEXT,
+    repeatable INTEGER NOT NULL DEFAULT 0,
     created_at INTEGER NOT NULL,
     updated_at INTEGER NOT NULL,
     completed_at INTEGER
   )
 `);
+
+try {
+  db.exec(
+    "ALTER TABLE goals ADD COLUMN repeatable INTEGER NOT NULL DEFAULT 0;",
+  );
+} catch (err) {
+  // column already exists
+}
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS para_items (
@@ -1312,8 +1321,8 @@ export function createGoal(deviceId, payload) {
     `
     INSERT INTO goals (
       id, device_id, title, category, status, target_value, current_value,
-      reward_coins, reward_xp, due_date, created_at, updated_at, completed_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      reward_coins, reward_xp, due_date, repeatable, created_at, updated_at, completed_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `,
   ).run(
     id,
@@ -1326,6 +1335,7 @@ export function createGoal(deviceId, payload) {
     Math.max(toInteger(payload?.reward_coins, 10), 0),
     Math.max(toInteger(payload?.reward_xp, 10), 0),
     payload?.due_date || null,
+    payload?.repeatable ? 1 : 0,
     timestamp,
     timestamp,
     null,
@@ -1353,7 +1363,7 @@ export function updateGoal(deviceId, id, payload) {
     `
     UPDATE goals
     SET title = ?, category = ?, status = ?, target_value = ?, current_value = ?,
-        reward_coins = ?, reward_xp = ?, due_date = ?, updated_at = ?
+        reward_coins = ?, reward_xp = ?, due_date = ?, repeatable = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
   `,
   ).run(
@@ -1365,6 +1375,11 @@ export function updateGoal(deviceId, id, payload) {
     Math.max(toInteger(payload?.reward_coins, current.reward_coins), 0),
     Math.max(toInteger(payload?.reward_xp, current.reward_xp), 0),
     payload?.due_date ?? current.due_date,
+    payload?.repeatable !== undefined
+      ? payload.repeatable
+        ? 1
+        : 0
+      : current.repeatable,
     now(),
     id,
     deviceId,
@@ -1390,9 +1405,15 @@ export function completeGoal(deviceId, id) {
   if (!goal) return null;
   if (goal.status === "done") return { goal, profile: getProfile(deviceId) };
 
-  db.prepare(
-    "UPDATE goals SET status = 'done', current_value = target_value, updated_at = ?, completed_at = ? WHERE id = ? AND device_id = ?",
-  ).run(now(), now(), id, deviceId);
+  if (goal.repeatable) {
+    db.prepare(
+      "UPDATE goals SET current_value = 0, updated_at = ? WHERE id = ? AND device_id = ?",
+    ).run(now(), id, deviceId);
+  } else {
+    db.prepare(
+      "UPDATE goals SET status = 'done', current_value = target_value, updated_at = ?, completed_at = ? WHERE id = ? AND device_id = ?",
+    ).run(now(), now(), id, deviceId);
+  }
 
   const profile = applyProfileProgress(deviceId, {
     coinsDelta: goal.reward_coins,
