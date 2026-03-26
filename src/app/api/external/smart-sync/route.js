@@ -19,7 +19,14 @@ function toNumber(value) {
   if (typeof value === "string") {
     const normalized = value.replace(",", ".").trim();
     const parsed = Number(normalized);
-    return Number.isFinite(parsed) ? parsed : 0;
+    if (Number.isFinite(parsed)) return parsed;
+
+    // Aceita textos como "78 bpm", "heart: 81", etc.
+    const match = normalized.match(/-?\d+(?:\.\d+)?/);
+    if (!match) return 0;
+
+    const extracted = Number(match[0]);
+    return Number.isFinite(extracted) ? extracted : 0;
   }
 
   if (Array.isArray(value)) {
@@ -47,15 +54,18 @@ function normalizeSleepHours(rawSleep) {
 async function parseBody(req) {
   const contentType = req.headers.get("content-type") || "";
 
-  if (contentType.includes("application/json")) {
-    return await req.json();
-  }
-
   const rawText = await req.text();
   if (!rawText?.trim()) return {};
 
   try {
-    return JSON.parse(rawText);
+    if (contentType.includes("application/json")) {
+      const parsed = JSON.parse(rawText);
+      return parsed && typeof parsed === "object" ? parsed : {};
+    }
+
+    // Mesmo sem content-type correto, tenta JSON primeiro.
+    const parsed = JSON.parse(rawText);
+    return parsed && typeof parsed === "object" ? parsed : {};
   } catch {
     // fallback para payloads simples: "steps=123&sleep=7"
     const params = new URLSearchParams(rawText);
