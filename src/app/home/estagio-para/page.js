@@ -314,51 +314,82 @@ export default function EstagioParaPage() {
         title="Novo arquivo .md"
         onClose={() => setCreateModalOpen(false)}
       >
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="arquivo.md"
-            value={form.title}
-            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
-          />
-          <select
-            className="p-2 border rounded-md border-graySm"
-            value={form.bucket}
-            onChange={(e) => setForm((c) => ({ ...c, bucket: e.target.value }))}
-          >
-            <option value="projects">Projects</option>
-            <option value="areas">Areas</option>
-            <option value="resources">Resources</option>
-            <option value="archive">Archive</option>
-          </select>
-          <select
-            className="p-2 border rounded-md border-graySm"
-            value={form.status}
-            onChange={(e) => setForm((c) => ({ ...c, status: e.target.value }))}
-          >
-            <option value="idea">Ideia</option>
-            <option value="active">Ativo</option>
-            <option value="waiting">Aguardando</option>
-            <option value="done">Concluído</option>
-          </select>
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Próxima ação"
-            value={form.next_action}
-            onChange={(e) =>
-              setForm((c) => ({ ...c, next_action: e.target.value }))
-            }
-          />
-          <textarea
-            className="p-2 border rounded-md md:col-span-2 border-graySm"
-            rows={2}
-            placeholder="Conteúdo inicial em MDX (opcional)"
-            value={form.notes}
-            onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))}
-          />
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Nome do Arquivo
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: projeto_secreto.md"
+              value={form.title}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, title: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Módulo (PARA)
+            </span>
+            <select
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              value={form.bucket}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, bucket: e.target.value }))
+              }
+            >
+              <option value="projects">Projects (Andamento)</option>
+              <option value="areas">Areas (Responsabilidades)</option>
+              <option value="resources">Resources (Referências)</option>
+              <option value="archive">Archive (Concluídos)</option>
+            </select>
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">Status</span>
+            <select
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              value={form.status}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, status: e.target.value }))
+              }
+            >
+              <option value="idea">Ideia</option>
+              <option value="active">Ativo</option>
+              <option value="waiting">Aguardando</option>
+              <option value="done">Concluído</option>
+            </select>
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Próxima Ação
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Ler capítulo 1"
+              value={form.next_action}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, next_action: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Conteúdo Inicial (MDX)
+            </span>
+            <textarea
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              rows={2}
+              placeholder="# Título Principal..."
+              value={form.notes}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, notes: e.target.value }))
+              }
+            />
+          </label>
           <button
             onClick={createItem}
-            className="p-2 text-white rounded-md md:col-span-2 bg-primary"
+            className="p-2 mt-2 font-bold text-white rounded-md md:col-span-2 bg-primary hover:bg-green-700 transition-colors"
           >
             Criar arquivo
           </button>

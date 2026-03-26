@@ -278,65 +278,100 @@ export default function MetasConquistasPage() {
         title="Nova meta"
         onClose={() => setCreateModalOpen(false)}
       >
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Título da meta"
-            value={form.title}
-            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Categoria"
-            value={form.category}
-            onChange={(e) =>
-              setForm((c) => ({ ...c, category: e.target.value }))
-            }
-          />
-          <input
-            type="number"
-            className="p-2 border rounded-md border-graySm"
-            value={form.target_value}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                target_value: Number(e.target.value) || 1,
-              }))
-            }
-          />
-          <input
-            type="number"
-            className="p-2 border rounded-md border-graySm"
-            value={form.current_value}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                current_value: Number(e.target.value) || 0,
-              }))
-            }
-          />
-          <input
-            type="number"
-            className="p-2 border rounded-md border-graySm"
-            value={form.reward_coins}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                reward_coins: Number(e.target.value) || 0,
-              }))
-            }
-          />
-          <input
-            type="number"
-            className="p-2 border rounded-md border-graySm"
-            value={form.reward_xp}
-            onChange={(e) =>
-              setForm((c) => ({ ...c, reward_xp: Number(e.target.value) || 0 }))
-            }
-          />
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Título da Meta
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Correr 5km"
+              value={form.title}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, title: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">Categoria</span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: saúde, geral, finanças"
+              value={form.category}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, category: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Progresso Atual
+            </span>
+            <input
+              type="number"
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              value={form.current_value}
+              onChange={(e) =>
+                setForm((c) => ({
+                  ...c,
+                  current_value: Number(e.target.value) || 0,
+                }))
+              }
+            />
+          </label>
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Progresso Alvo (Qual é o final?)
+            </span>
+            <input
+              type="number"
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              value={form.target_value}
+              onChange={(e) =>
+                setForm((c) => ({
+                  ...c,
+                  target_value: Number(e.target.value) || 1,
+                }))
+              }
+            />
+          </label>
+          <div className="grid grid-cols-2 gap-2 md:col-span-2">
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-orange-500">
+                Recompensa (Ouro)
+              </span>
+              <input
+                type="number"
+                className="p-2 border rounded-md border-orange-200 bg-orange-50 outline-none focus:ring-1 focus:ring-orange-500 transition-shadow"
+                value={form.reward_coins}
+                onChange={(e) =>
+                  setForm((c) => ({
+                    ...c,
+                    reward_coins: Number(e.target.value) || 0,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-blue-500">
+                Recompensa (XP)
+              </span>
+              <input
+                type="number"
+                className="p-2 border rounded-md border-blue-200 bg-blue-50 outline-none focus:ring-1 focus:ring-blue-500 transition-shadow"
+                value={form.reward_xp}
+                onChange={(e) =>
+                  setForm((c) => ({
+                    ...c,
+                    reward_xp: Number(e.target.value) || 0,
+                  }))
+                }
+              />
+            </label>
+          </div>
           <button
             onClick={createGoal}
-            className="p-2 text-white rounded-md md:col-span-2 bg-primary"
+            className="p-2 mt-2 font-bold text-white rounded-md md:col-span-2 bg-primary hover:bg-green-700 transition-colors"
           >
             Criar meta
           </button>

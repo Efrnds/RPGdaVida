@@ -210,43 +210,65 @@ export default function DiarioPage() {
         title="Nova entrada do diário"
         onClose={() => setCreateModalOpen(false)}
       >
-        <div className="grid gap-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Título (opcional)"
-            value={form.title}
-            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
-          />
-          <textarea
-            className="p-2 border rounded-md border-graySm"
-            rows={4}
-            placeholder="Escreva sobre seu dia"
-            value={form.content}
-            onChange={(e) =>
-              setForm((c) => ({ ...c, content: e.target.value }))
-            }
-          />
-          <div className="grid grid-cols-2 gap-2">
-            <select
-              className="p-2 border rounded-md border-graySm"
-              value={form.mood}
-              onChange={(e) => setForm((c) => ({ ...c, mood: e.target.value }))}
-            >
-              <option value="motivated">Motivado</option>
-              <option value="neutral">Neutro</option>
-              <option value="tired">Cansado</option>
-              <option value="happy">Feliz</option>
-            </select>
+        <div className="grid gap-3">
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">Título</span>
             <input
-              className="p-2 border rounded-md border-graySm"
-              placeholder="Tags (ex: foco,saude)"
-              value={form.tags}
-              onChange={(e) => setForm((c) => ({ ...c, tags: e.target.value }))}
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Reflexões sobre hoje (Opcional)"
+              value={form.title}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, title: e.target.value }))
+              }
             />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Conteúdo do Diário
+            </span>
+            <textarea
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              rows={4}
+              placeholder="Escreva sobre seu dia, sentimentos, pensamentos..."
+              value={form.content}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, content: e.target.value }))
+              }
+            />
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-grayMd">Humor</span>
+              <select
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                value={form.mood}
+                onChange={(e) =>
+                  setForm((c) => ({ ...c, mood: e.target.value }))
+                }
+              >
+                <option value="motivated">Motivado 🚀</option>
+                <option value="neutral">Neutro 😐</option>
+                <option value="tired">Cansado 😴</option>
+                <option value="happy">Feliz 😄</option>
+              </select>
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-grayMd">
+                Tags Extras
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                placeholder="Ex: foco, trabalho"
+                value={form.tags}
+                onChange={(e) =>
+                  setForm((c) => ({ ...c, tags: e.target.value }))
+                }
+              />
+            </label>
           </div>
           <button
             onClick={createEntry}
-            className="p-2 text-white rounded-md bg-primary"
+            className="p-2 mt-2 font-bold text-white rounded-md bg-primary hover:bg-green-700 transition-colors"
           >
             Salvar entrada
           </button>

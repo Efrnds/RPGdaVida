@@ -201,56 +201,89 @@ export default function FinancasInvestimentosPage() {
         title="Novo investimento"
         onClose={() => setCreateModalOpen(false)}
       >
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Nome do investimento"
-            value={form.title}
-            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            type="number"
-            value={form.monthly_yield_percent}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                monthly_yield_percent: Number(e.target.value) || 0,
-              }))
-            }
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            type="number"
-            value={form.invested_coins}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                invested_coins: Number(e.target.value) || 0,
-              }))
-            }
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            type="number"
-            value={form.current_value}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                current_value: Number(e.target.value) || 0,
-              }))
-            }
-          />
-          <textarea
-            className="p-2 border rounded-md md:col-span-2 border-graySm"
-            rows={2}
-            placeholder="Notas"
-            value={form.notes}
-            onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))}
-          />
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Nome do Investimento
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Tesouro Direto"
+              value={form.title}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, title: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Rendimento Mensal (%)
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              type="number"
+              step="0.01"
+              placeholder="Ex: 0.8"
+              value={form.monthly_yield_percent}
+              onChange={(e) =>
+                setForm((c) => ({
+                  ...c,
+                  monthly_yield_percent: Number(e.target.value) || 0,
+                }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Aporte Inicial (Ouro)
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              type="number"
+              placeholder="Ouro reservado"
+              value={form.invested_coins}
+              onChange={(e) =>
+                setForm((c) => ({
+                  ...c,
+                  invested_coins: Number(e.target.value) || 0,
+                }))
+              }
+            />
+          </label>
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Valor Atual
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              type="number"
+              placeholder="Dinheiro na conta real"
+              value={form.current_value}
+              onChange={(e) =>
+                setForm((c) => ({
+                  ...c,
+                  current_value: Number(e.target.value) || 0,
+                }))
+              }
+            />
+          </label>
+          <label className="grid gap-1 md:col-span-2">
+            <span className="text-sm font-semibold text-grayMd">
+              Notas Adicionais
+            </span>
+            <textarea
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              rows={2}
+              placeholder="Detalhes ou regras do investimento..."
+              value={form.notes}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, notes: e.target.value }))
+              }
+            />
+          </label>
           <button
             onClick={createInvestment}
-            className="p-2 text-white rounded-md md:col-span-2 bg-primary"
+            className="p-2 mt-2 font-bold text-white rounded-md md:col-span-2 bg-primary hover:bg-green-700 transition-colors"
           >
             Criar investimento
           </button>

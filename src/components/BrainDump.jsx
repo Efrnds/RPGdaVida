@@ -264,42 +264,57 @@ export default function BrainDump({ standalone = false, compact = false }) {
           title="Nova tarefa"
           onClose={() => setCreateModalOpen(false)}
         >
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            <input
-              className="p-2 border rounded-md border-graySm"
-              placeholder="Título"
-              value={taskForm.title}
-              onChange={(e) =>
-                setTaskForm((current) => ({
-                  ...current,
-                  title: e.target.value,
-                }))
-              }
-            />
-            <input
-              className="p-2 border rounded-md border-graySm"
-              type="number"
-              min="1"
-              placeholder="Nível"
-              value={taskForm.level}
-              onChange={(e) =>
-                setTaskForm((current) => ({
-                  ...current,
-                  level: Number(e.target.value) || 1,
-                }))
-              }
-            />
-            <input
-              className="col-span-2 p-2 border rounded-md border-graySm"
-              placeholder="Rótulo de horário (opcional)"
-              value={taskForm.due_label}
-              onChange={(e) =>
-                setTaskForm((current) => ({
-                  ...current,
-                  due_label: e.target.value,
-                }))
-              }
-            />
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <label className="grid gap-1 md:col-span-2">
+              <span className="text-xs font-semibold text-grayMd">
+                Título da Tarefa
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                placeholder="Ex: Pagar a conta de luz"
+                value={taskForm.title}
+                onChange={(e) =>
+                  setTaskForm((current) => ({
+                    ...current,
+                    title: e.target.value,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-xs font-semibold text-grayMd">
+                Nível Dificuldade
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                type="number"
+                min="1"
+                placeholder="Ex: 1"
+                value={taskForm.level}
+                onChange={(e) =>
+                  setTaskForm((current) => ({
+                    ...current,
+                    level: Number(e.target.value) || 1,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1 col-span-2 md:col-span-1">
+              <span className="text-xs font-semibold text-grayMd">
+                Aviso de Prazo
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                placeholder="Ex: Hoje às 15h"
+                value={taskForm.due_label}
+                onChange={(e) =>
+                  setTaskForm((current) => ({
+                    ...current,
+                    due_label: e.target.value,
+                  }))
+                }
+              />
+            </label>
             <button
               onClick={createTask}
               className="col-span-2 p-2 text-sm text-white rounded-md bg-primary"

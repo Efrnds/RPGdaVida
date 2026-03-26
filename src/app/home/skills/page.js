@@ -152,59 +152,82 @@ export default function SkillsPage() {
         title="Nova skill"
         onClose={() => setCreateModalOpen(false)}
       >
-        <div className="grid gap-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Título da skill"
-            value={skillForm.title}
-            onChange={(e) =>
-              setSkillForm((current) => ({ ...current, title: e.target.value }))
-            }
-          />
+        <div className="grid gap-3">
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Título da Skill
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Programação, Piano, Culinária"
+              value={skillForm.title}
+              onChange={(e) =>
+                setSkillForm((current) => ({
+                  ...current,
+                  title: e.target.value,
+                }))
+              }
+            />
+          </label>
           <div className="grid grid-cols-3 gap-2">
-            <input
-              className="p-2 border rounded-md border-graySm"
-              type="number"
-              min="0"
-              placeholder="XP atual"
-              value={skillForm.current_xp}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  current_xp: Number(e.target.value) || 0,
-                }))
-              }
-            />
-            <input
-              className="p-2 border rounded-md border-graySm"
-              type="number"
-              min="1"
-              placeholder="XP alvo"
-              value={skillForm.target_xp}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  target_xp: Number(e.target.value) || 1,
-                }))
-              }
-            />
-            <input
-              className="p-2 border rounded-md border-graySm"
-              type="number"
-              min="1"
-              placeholder="Nível"
-              value={skillForm.level}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  level: Number(e.target.value) || 1,
-                }))
-              }
-            />
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-grayMd text-center">
+                Nível
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 text-center outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                type="number"
+                min="1"
+                placeholder="Ex: 1"
+                value={skillForm.level}
+                onChange={(e) =>
+                  setSkillForm((current) => ({
+                    ...current,
+                    level: Number(e.target.value) || 1,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-grayMd text-center">
+                XP Inicial
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 text-center outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                type="number"
+                min="0"
+                placeholder="Ex: 0"
+                value={skillForm.current_xp}
+                onChange={(e) =>
+                  setSkillForm((current) => ({
+                    ...current,
+                    current_xp: Number(e.target.value) || 0,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-sm font-semibold text-grayMd text-center">
+                XP P/ Upar
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 text-center outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                type="number"
+                min="1"
+                placeholder="Ex: 100"
+                value={skillForm.target_xp}
+                onChange={(e) =>
+                  setSkillForm((current) => ({
+                    ...current,
+                    target_xp: Number(e.target.value) || 1,
+                  }))
+                }
+              />
+            </label>
           </div>
           <button
             onClick={createSkill}
-            className="p-2 text-white rounded-md bg-primary"
+            className="p-2 mt-2 font-bold text-white rounded-md bg-primary hover:bg-green-700 transition-colors"
           >
             Criar skill
           </button>

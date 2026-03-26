@@ -537,13 +537,22 @@ export default function HabitModule({ type }) {
         onClose={() => setCreateModalOpen(false)}
       >
         <div className="grid gap-3 text-sm">
-          <input
-            className="p-3 bg-zinc-50 border rounded-lg border-graySm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow"
-            placeholder={`Nome do ${isGood ? "desenvolvimento pessoal" : "mau hábito"}...`}
-            value={newHabitTitle}
-            onChange={(e) => setNewHabitTitle(e.target.value)}
-            autoFocus
-          />
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Nome do {isGood ? "Hábito" : "Desafio ou Penalidade"}
+            </span>
+            <input
+              className="p-3 bg-zinc-50 border rounded-lg border-graySm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow"
+              placeholder={
+                isGood
+                  ? "Ex: Beber 2L de Água"
+                  : "Ex: Passou de 1h de Instagram"
+              }
+              value={newHabitTitle}
+              onChange={(e) => setNewHabitTitle(e.target.value)}
+              autoFocus
+            />
+          </label>
           <button
             onClick={createHabit}
             className={`p-3 font-bold text-white rounded-lg transition-colors ${isGood ? "bg-primary hover:bg-primaryHover" : "bg-red-500 hover:bg-red-600"}`}

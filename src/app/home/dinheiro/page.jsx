@@ -183,39 +183,56 @@ export default function DinheiroPage() {
         title="Novo item da loja"
         onClose={() => setCreateModalOpen(false)}
       >
-        <div className="grid gap-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Nome da recompensa"
-            value={form.title}
-            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            type="number"
-            min="1"
-            value={form.cost_coins}
-            onChange={(e) =>
-              setForm((c) => ({
-                ...c,
-                cost_coins: Number(e.target.value) || 1,
-              }))
-            }
-          />
-          <textarea
-            className="p-2 border rounded-md border-graySm"
-            rows={2}
-            placeholder="Descrição (opcional)"
-            value={form.description}
-            onChange={(e) =>
-              setForm((c) => ({ ...c, description: e.target.value }))
-            }
-          />
+        <div className="grid gap-3">
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Nome da Recompensa
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Comprar um livro novo"
+              value={form.title}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, title: e.target.value }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Custo (Moedas)
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              type="number"
+              min="1"
+              value={form.cost_coins}
+              onChange={(e) =>
+                setForm((c) => ({
+                  ...c,
+                  cost_coins: Number(e.target.value) || 1,
+                }))
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Descrição (Opcional)
+            </span>
+            <textarea
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              rows={2}
+              placeholder="Detalhes adicionais sobre a recompensa..."
+              value={form.description}
+              onChange={(e) =>
+                setForm((c) => ({ ...c, description: e.target.value }))
+              }
+            />
+          </label>
           <button
             onClick={createItem}
-            className="p-2 text-white rounded-md bg-primary"
+            className="p-2 mt-2 font-bold text-white rounded-md bg-primary hover:bg-green-700 transition-colors"
           >
-            Criar item
+            Criar item na Loja
           </button>
         </div>
       </FormModal>

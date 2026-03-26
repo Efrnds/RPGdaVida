@@ -246,51 +246,86 @@ export default function ConfiguracoesPage() {
 
         <h3 className="text-sm font-semibold">Editar perfil</h3>
 
-        <div className="grid gap-2 md:grid-cols-2">
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Nome"
-            value={profile.username || ""}
-            onChange={(e) => patchProfile("username", e.target.value)}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            type="number"
-            min="1"
-            placeholder="Nível"
-            value={profile.level}
-            onChange={(e) => patchProfile("level", Number(e.target.value) || 1)}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Objetivo principal"
-            value={profile.main_objective || ""}
-            onChange={(e) => patchProfile("main_objective", e.target.value)}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Objetivo secundário"
-            value={profile.secondary_objective || ""}
-            onChange={(e) =>
-              patchProfile("secondary_objective", e.target.value)
-            }
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Forças"
-            value={profile.strengths || ""}
-            onChange={(e) => patchProfile("strengths", e.target.value)}
-          />
-          <input
-            className="p-2 border rounded-md border-graySm"
-            placeholder="Fraquezas"
-            value={profile.weaknesses || ""}
-            onChange={(e) => patchProfile("weaknesses", e.target.value)}
-          />
+        <div className="grid gap-3 md:grid-cols-2">
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Nome / Nickname
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Seu nome"
+              value={profile.username || ""}
+              onChange={(e) => patchProfile("username", e.target.value)}
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Nível Atual
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              type="number"
+              min="1"
+              placeholder="Ex: 5"
+              value={profile.level}
+              onChange={(e) =>
+                patchProfile("level", Number(e.target.value) || 1)
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Objetivo Principal
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Aprender a programar"
+              value={profile.main_objective || ""}
+              onChange={(e) => patchProfile("main_objective", e.target.value)}
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Objetivo Secundário
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Correr uma maratona"
+              value={profile.secondary_objective || ""}
+              onChange={(e) =>
+                patchProfile("secondary_objective", e.target.value)
+              }
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Principais Forças
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Foco, Disciplina"
+              value={profile.strengths || ""}
+              onChange={(e) => patchProfile("strengths", e.target.value)}
+            />
+          </label>
+          <label className="grid gap-1">
+            <span className="text-sm font-semibold text-grayMd">
+              Pontos a Melhorar (Fraquezas)
+            </span>
+            <input
+              className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+              placeholder="Ex: Procrastinação"
+              value={profile.weaknesses || ""}
+              onChange={(e) => patchProfile("weaknesses", e.target.value)}
+            />
+          </label>
         </div>
 
-        <button onClick={save} className="p-2 text-white rounded-md bg-primary">
-          Salvar
+        <button
+          onClick={save}
+          className="p-2 mt-2 font-bold text-white rounded-md bg-primary hover:bg-green-700 transition-colors"
+        >
+          Salvar Alterações
         </button>
       </section>
     </ModuleScreen>

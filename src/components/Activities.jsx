@@ -282,41 +282,54 @@ export default function Activities({ standalone = false, compact = false }) {
           title="Nova atividade"
           onClose={() => setCreateModalOpen(false)}
         >
-          <div className="grid gap-2 text-sm">
-            <input
-              className="p-2 border rounded-md border-graySm"
-              placeholder="Título (opcional)"
-              value={activityForm.title}
-              onChange={(e) =>
-                setActivityForm((current) => ({
-                  ...current,
-                  title: e.target.value,
-                }))
-              }
-            />
-            <textarea
-              className="p-2 border rounded-md border-graySm"
-              rows={3}
-              placeholder="Descrição"
-              value={activityForm.description}
-              onChange={(e) =>
-                setActivityForm((current) => ({
-                  ...current,
-                  description: e.target.value,
-                }))
-              }
-            />
-            <input
-              className="p-2 border rounded-md border-graySm"
-              placeholder="Resultado (ex.: +10 XP)"
-              value={activityForm.values_text}
-              onChange={(e) =>
-                setActivityForm((current) => ({
-                  ...current,
-                  values_text: e.target.value,
-                }))
-              }
-            />
+          <div className="grid gap-3 text-sm">
+            <label className="grid gap-1">
+              <span className="text-xs font-semibold text-grayMd">Título</span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                placeholder="Ex: Lição Concluída"
+                value={activityForm.title}
+                onChange={(e) =>
+                  setActivityForm((current) => ({
+                    ...current,
+                    title: e.target.value,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-xs font-semibold text-grayMd">
+                Descrição
+              </span>
+              <textarea
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                rows={3}
+                placeholder="Detalhes (Opcional)"
+                value={activityForm.description}
+                onChange={(e) =>
+                  setActivityForm((current) => ({
+                    ...current,
+                    description: e.target.value,
+                  }))
+                }
+              />
+            </label>
+            <label className="grid gap-1">
+              <span className="text-xs font-semibold text-grayMd">
+                Resultado Manual
+              </span>
+              <input
+                className="p-2 border rounded-md border-graySm bg-zinc-50 outline-none focus:ring-1 focus:ring-primary transition-shadow"
+                placeholder="Exemplo: +10 XP"
+                value={activityForm.values_text}
+                onChange={(e) =>
+                  setActivityForm((current) => ({
+                    ...current,
+                    values_text: e.target.value,
+                  }))
+                }
+              />
+            </label>
             <button
               onClick={createActivity}
               className="p-2 text-sm text-white rounded-md bg-primary"
