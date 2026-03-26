@@ -19,7 +19,7 @@ export async function GET(req) {
   } catch {
     return NextResponse.json(
       { error: "Falha ao listar tarefas." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -38,7 +38,7 @@ export async function POST(req) {
   } catch {
     return NextResponse.json(
       { error: "Falha ao criar tarefa." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

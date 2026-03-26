@@ -116,14 +116,14 @@ export default function BrainDump({ standalone = false, compact = false }) {
   };
 
   const filteredTasks = tasks.filter((task) =>
-    statusFilter === "TODAS" ? true : task.status === statusFilter
+    statusFilter === "TODAS" ? true : task.status === statusFilter,
   );
 
   const totalPages = Math.max(1, Math.ceil(filteredTasks.length / pageSize));
   const currentPage = Math.min(page, totalPages);
   const paginatedTasks = filteredTasks.slice(
     (currentPage - 1) * pageSize,
-    currentPage * pageSize
+    currentPage * pageSize,
   );
 
   return (
@@ -133,7 +133,10 @@ export default function BrainDump({ standalone = false, compact = false }) {
           💡 Brain Dump
         </h2>
         {!standalone ? (
-          <Link href="/home/brain-dump" className="text-xs text-primary underline-offset-2 hover:underline">
+          <Link
+            href="/home/brain-dump"
+            className="text-xs text-primary underline-offset-2 hover:underline"
+          >
             Ver todos
           </Link>
         ) : null}
@@ -145,35 +148,37 @@ export default function BrainDump({ standalone = false, compact = false }) {
         </p>
       ) : null}
 
-      {!compact ? <div className="flex gap-2 mt-2 text-xs">
-        <button
-          onClick={() => {
-            setStatusFilter("TODAS");
-            setPage(1);
-          }}
-          className="px-2 py-1 border rounded-md border-graySm"
-        >
-          Todas
-        </button>
-        <button
-          onClick={() => {
-            setStatusFilter("A FAZER");
-            setPage(1);
-          }}
-          className="px-2 py-1 border rounded-md border-graySm"
-        >
-          A Fazer
-        </button>
-        <button
-          onClick={() => {
-            setStatusFilter("CONCLUÍDO");
-            setPage(1);
-          }}
-          className="px-2 py-1 border rounded-md border-graySm"
-        >
-          Concluído
-        </button>
-      </div> : null}
+      {!compact ? (
+        <div className="flex gap-2 mt-2 text-xs">
+          <button
+            onClick={() => {
+              setStatusFilter("TODAS");
+              setPage(1);
+            }}
+            className="px-2 py-1 border rounded-md border-graySm"
+          >
+            Todas
+          </button>
+          <button
+            onClick={() => {
+              setStatusFilter("A FAZER");
+              setPage(1);
+            }}
+            className="px-2 py-1 border rounded-md border-graySm"
+          >
+            A Fazer
+          </button>
+          <button
+            onClick={() => {
+              setStatusFilter("CONCLUÍDO");
+              setPage(1);
+            }}
+            className="px-2 py-1 border rounded-md border-graySm"
+          >
+            Concluído
+          </button>
+        </div>
+      ) : null}
 
       <div className="flex flex-col gap-1 py-2">
         {paginatedTasks.map((task) => (
@@ -199,27 +204,33 @@ export default function BrainDump({ standalone = false, compact = false }) {
         ) : null}
       </div>
 
-      {!compact ? <div className="flex items-center justify-between mt-1 text-xs text-grayMd">
-        <button
-          onClick={() => setPage((current) => Math.max(1, current - 1))}
-          className="px-2 py-1 border rounded-md border-graySm"
-        >
-          Anterior
-        </button>
-        <span>
-          Página {currentPage} de {totalPages}
-        </span>
-        <button
-          onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
-          className="px-2 py-1 border rounded-md border-graySm"
-        >
-          Próxima
-        </button>
-      </div> : null}
+      {!compact ? (
+        <div className="flex items-center justify-between mt-1 text-xs text-grayMd">
+          <button
+            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            className="px-2 py-1 border rounded-md border-graySm"
+          >
+            Anterior
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setPage((current) => Math.min(totalPages, current + 1))
+            }
+            className="px-2 py-1 border rounded-md border-graySm"
+          >
+            Próxima
+          </button>
+        </div>
+      ) : null}
 
       {!compact ? (
         <div className="text-sm font-bold text-graySm">
-          <button onClick={() => setCreateModalOpen(true)}>Nova Tarefa +</button>
+          <button onClick={() => setCreateModalOpen(true)}>
+            Nova Tarefa +
+          </button>
         </div>
       ) : (
         <button
@@ -253,7 +264,10 @@ export default function BrainDump({ standalone = false, compact = false }) {
               placeholder="Título"
               value={taskForm.title}
               onChange={(e) =>
-                setTaskForm((current) => ({ ...current, title: e.target.value }))
+                setTaskForm((current) => ({
+                  ...current,
+                  title: e.target.value,
+                }))
               }
             />
             <input
@@ -274,7 +288,10 @@ export default function BrainDump({ standalone = false, compact = false }) {
               placeholder="Rótulo de horário (opcional)"
               value={taskForm.due_label}
               onChange={(e) =>
-                setTaskForm((current) => ({ ...current, due_label: e.target.value }))
+                setTaskForm((current) => ({
+                  ...current,
+                  due_label: e.target.value,
+                }))
               }
             />
             <button

@@ -18,14 +18,17 @@ export async function PUT(req, { params }) {
 
     const item = updateMarketItem(deviceId, id, body);
     if (!item) {
-      return NextResponse.json({ error: "Item não encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Item não encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data: item });
   } catch {
     return NextResponse.json(
       { error: "Falha ao atualizar item." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -41,14 +44,17 @@ export async function DELETE(req, { params }) {
     const ok = deleteMarketItem(deviceId, id);
 
     if (!ok) {
-      return NextResponse.json({ error: "Item não encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Item não encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
       { error: "Falha ao remover item." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

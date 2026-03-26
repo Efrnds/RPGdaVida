@@ -11,14 +11,19 @@ export default function Activity({
 }) {
   if (compact) {
     const topLabel = title || "Atividade";
-    const icon = lostOrWon === "won" ? "✅" : lostOrWon === "lost" ? "❌" : "☑️";
+    const icon =
+      lostOrWon === "won" ? "✅" : lostOrWon === "lost" ? "❌" : "☑️";
     const valuesClass = lostOrWon === "won" ? "text-primary" : "text-red-500";
 
     return (
       <div className="p-2 border rounded-md border-graySm bg-white">
-        <p className="text-xs font-medium text-grayMd">{icon} {topLabel}</p>
+        <p className="text-xs font-medium text-grayMd">
+          {icon} {topLabel}
+        </p>
         <p className="text-xs leading-4 text-grayMd">{desc}</p>
-        {values ? <p className={`text-sm font-semibold ${valuesClass}`}>{values}</p> : null}
+        {values ? (
+          <p className={`text-sm font-semibold ${valuesClass}`}>{values}</p>
+        ) : null}
       </div>
     );
   }

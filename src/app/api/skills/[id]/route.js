@@ -18,14 +18,17 @@ export async function PUT(req, { params }) {
     const skill = updateSkill(deviceId, id, body);
 
     if (!skill) {
-      return NextResponse.json({ error: "Skill não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Skill não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data: skill });
   } catch {
     return NextResponse.json(
       { error: "Falha ao atualizar skill." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -41,14 +44,17 @@ export async function DELETE(req, { params }) {
     const ok = deleteSkill(deviceId, id);
 
     if (!ok) {
-      return NextResponse.json({ error: "Skill não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Skill não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
       { error: "Falha ao remover skill." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

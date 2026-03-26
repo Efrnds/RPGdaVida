@@ -30,7 +30,9 @@ export default function ModuleScreen({
           </article>
 
           <article className="pt-1 md:pt-3">
-            <h2 className="text-2xl font-bold text-black md:text-4xl">{subtitle}</h2>
+            <h2 className="text-2xl font-bold text-black md:text-4xl">
+              {subtitle}
+            </h2>
             <p className="text-sm">{description}</p>
             <p className="flex items-center gap-1 mt-1 text-[13px] underline">
               <FaInfoCircle /> Precisa de ajuda
@@ -41,15 +43,21 @@ export default function ModuleScreen({
         <div className="grid grid-cols-1 gap-2 mt-4 text-xs sm:grid-cols-3">
           <div className="p-2 border rounded-md border-graySm bg-white/70">
             <p className="font-semibold">➕ Criar</p>
-            <p className="text-grayMd">Use os botões de novo item para registrar dados.</p>
+            <p className="text-grayMd">
+              Use os botões de novo item para registrar dados.
+            </p>
           </div>
           <div className="p-2 border rounded-md border-graySm bg-white/70">
             <p className="font-semibold">✏️ Editar</p>
-            <p className="text-grayMd">Abra um card/item para ajustar os campos.</p>
+            <p className="text-grayMd">
+              Abra um card/item para ajustar os campos.
+            </p>
           </div>
           <div className="p-2 border rounded-md border-graySm bg-white/70">
             <p className="font-semibold">💾 Salvar</p>
-            <p className="text-grayMd">Confirme as mudanças para não perder progresso.</p>
+            <p className="text-grayMd">
+              Confirme as mudanças para não perder progresso.
+            </p>
           </div>
         </div>
       </section>

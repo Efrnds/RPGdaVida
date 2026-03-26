@@ -16,11 +16,17 @@ export async function POST(req, { params }) {
     const data = completeGoal(getDeviceId(req), id);
 
     if (!data) {
-      return NextResponse.json({ error: "Meta não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Meta não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data });
   } catch {
-    return NextResponse.json({ error: "Falha ao concluir meta." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao concluir meta." },
+      { status: 500 },
+    );
   }
 }

@@ -17,12 +17,18 @@ export async function PUT(req, { params }) {
     const data = updateGoal(getDeviceId(req), id, body);
 
     if (!data) {
-      return NextResponse.json({ error: "Meta não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Meta não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data });
   } catch {
-    return NextResponse.json({ error: "Falha ao atualizar meta." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao atualizar meta." },
+      { status: 500 },
+    );
   }
 }
 
@@ -36,11 +42,17 @@ export async function DELETE(req, { params }) {
     const ok = deleteGoal(getDeviceId(req), id);
 
     if (!ok) {
-      return NextResponse.json({ error: "Meta não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Meta não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ error: "Falha ao remover meta." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao remover meta." },
+      { status: 500 },
+    );
   }
 }

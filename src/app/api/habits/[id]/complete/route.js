@@ -17,14 +17,17 @@ export async function POST(req, { params }) {
     const result = completeHabit(deviceId, id);
 
     if (!result) {
-      return NextResponse.json({ error: "Hábito não encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Hábito não encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data: result });
   } catch {
     return NextResponse.json(
       { error: "Falha ao registrar hábito." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

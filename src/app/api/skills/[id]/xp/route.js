@@ -17,14 +17,17 @@ export async function POST(req, { params }) {
     const data = addSkillXp(getDeviceId(req), id, body?.xpAmount ?? 1);
 
     if (!data) {
-      return NextResponse.json({ error: "Skill não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Skill não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data });
   } catch {
     return NextResponse.json(
       { error: "Falha ao aplicar XP na skill." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

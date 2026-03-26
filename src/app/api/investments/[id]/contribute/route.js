@@ -18,8 +18,13 @@ export async function POST(req, { params }) {
 
     if (!data?.ok) {
       return NextResponse.json(
-        { error: data?.reason === "INSUFFICIENT_COINS" ? "Moedas insuficientes." : "Investimento inválido." },
-        { status: 400 }
+        {
+          error:
+            data?.reason === "INSUFFICIENT_COINS"
+              ? "Moedas insuficientes."
+              : "Investimento inválido.",
+        },
+        { status: 400 },
       );
     }
 

@@ -32,7 +32,6 @@ export default function MetricasPage() {
       icon="🧮"
       maxWidth="max-w-4xl"
     >
-
       <section className="flex flex-wrap max-w-4xl gap-2 mx-auto">
         {[7, 30, 90].map((period) => (
           <button
@@ -73,9 +72,12 @@ export default function MetricasPage() {
       </section>
 
       <section className="max-w-4xl p-3 mx-auto border rounded-md border-graySm bg-white">
-        <p className="text-sm">Saldo atual: {metrics?.profile?.coins ?? 0} moedas</p>
         <p className="text-sm">
-          Vida atual: {metrics?.profile?.hp_current ?? 0} / {metrics?.profile?.hp_total ?? 0}
+          Saldo atual: {metrics?.profile?.coins ?? 0} moedas
+        </p>
+        <p className="text-sm">
+          Vida atual: {metrics?.profile?.hp_current ?? 0} /{" "}
+          {metrics?.profile?.hp_total ?? 0}
         </p>
       </section>
     </ModuleScreen>

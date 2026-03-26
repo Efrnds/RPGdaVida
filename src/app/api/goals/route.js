@@ -15,7 +15,10 @@ export async function GET(req) {
     const data = listGoals(getDeviceId(req));
     return NextResponse.json({ data });
   } catch {
-    return NextResponse.json({ error: "Falha ao listar metas." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao listar metas." },
+      { status: 500 },
+    );
   }
 }
 
@@ -29,6 +32,9 @@ export async function POST(req) {
     const data = createGoal(getDeviceId(req), body);
     return NextResponse.json({ data }, { status: 201 });
   } catch {
-    return NextResponse.json({ error: "Falha ao criar meta." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao criar meta." },
+      { status: 500 },
+    );
   }
 }

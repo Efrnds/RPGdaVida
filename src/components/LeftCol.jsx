@@ -52,7 +52,7 @@ export default function LeftCol() {
       levelLabel: `Nível ${profile.level}`,
       coinsLabel: `${profile.coins} Moedas`,
     }),
-    [profile]
+    [profile],
   );
 
   async function fetchProfileAndSkills(id) {
@@ -205,7 +205,11 @@ export default function LeftCol() {
           </p>
         ) : null}
 
-        <img src="/assets/images/Profile-Icon.png" alt="" className="object-cover w-full rounded-md h-28" />
+        <img
+          src="/assets/images/Profile-Icon.png"
+          alt=""
+          className="object-cover w-full rounded-md h-28"
+        />
 
         <div className="flex flex-wrap w-full gap-2 text-base">
           <p>{profileSummary.username}</p>
@@ -245,7 +249,9 @@ export default function LeftCol() {
           </div>
           <div className="flex flex-wrap justify-between gap-4">
             <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left text-grayMd">Fraquezas</p>
+              <p className="text-sm font-bold text-left text-grayMd">
+                Fraquezas
+              </p>
               <p className="text-sm font-bold text-grayMd">:</p>
             </div>
             <p className="text-sm">{profile.weaknesses || "-"}</p>
@@ -265,7 +271,9 @@ export default function LeftCol() {
                   style={{ width: `${profile.goals_completion}%` }}
                 ></div>
               </div>
-              <p className="my-auto text-sm font-semibold">{profile.goals_completion}%</p>
+              <p className="my-auto text-sm font-semibold">
+                {profile.goals_completion}%
+              </p>
             </div>
           </div>
         </div>
@@ -283,7 +291,9 @@ export default function LeftCol() {
                   style={{
                     width: `${Math.min(
                       100,
-                      Math.round((profile.xp_current / profile.xp_target) * 100)
+                      Math.round(
+                        (profile.xp_current / profile.xp_target) * 100,
+                      ),
                     )}%`,
                   }}
                 ></div>
@@ -310,7 +320,9 @@ export default function LeftCol() {
                 min="1"
                 placeholder="Nível"
                 value={profile.level}
-                onChange={(e) => updateProfileField("level", Number(e.target.value) || 1)}
+                onChange={(e) =>
+                  updateProfileField("level", Number(e.target.value) || 1)
+                }
               />
               <input
                 className="p-1 border rounded-md border-graySm"
@@ -318,7 +330,9 @@ export default function LeftCol() {
                 min="0"
                 placeholder="Moedas"
                 value={profile.coins}
-                onChange={(e) => updateProfileField("coins", Number(e.target.value) || 0)}
+                onChange={(e) =>
+                  updateProfileField("coins", Number(e.target.value) || 0)
+                }
               />
               <input
                 className="p-1 border rounded-md border-graySm"
@@ -345,7 +359,9 @@ export default function LeftCol() {
       <div className="flex flex-col gap-3 p-2">
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="text-[32px] font-semibold leading-none text-grayMd">⚔️ Skills</h2>
+            <h2 className="text-[32px] font-semibold leading-none text-grayMd">
+              ⚔️ Skills
+            </h2>
             <Link
               href="/home/skills"
               className="px-2 py-1 text-xs border rounded-md border-graySm text-grayMd hover:bg-white"
@@ -366,12 +382,15 @@ export default function LeftCol() {
             lvl={`Nível ${skill.level}`}
             progressPercent={Math.min(
               100,
-              Math.round((skill.current_xp / skill.target_xp) * 100)
+              Math.round((skill.current_xp / skill.target_xp) * 100),
             )}
             compact={homeMode}
             onDelete={() => setSkillToDelete(skill)}
             onLevelUp={() =>
-              updateSkill(skill.id, { ...skill, level: Number(skill.level) + 1 })
+              updateSkill(skill.id, {
+                ...skill,
+                level: Number(skill.level) + 1,
+              })
             }
             onGainXp={() => gainSkillXp(skill.id, 5)}
             onGainBigXp={() => gainSkillXp(skill.id, 20)}
@@ -384,53 +403,56 @@ export default function LeftCol() {
 
         {!homeMode ? (
           <div className="grid grid-cols-2 gap-2 text-sm">
-          <input
-            className="p-1 border rounded-md border-graySm"
-            placeholder="Título da skill"
-            value={skillForm.title}
-            onChange={(e) =>
-              setSkillForm((current) => ({ ...current, title: e.target.value }))
-            }
-          />
-          <input
-            className="p-1 border rounded-md border-graySm"
-            type="number"
-            min="0"
-            placeholder="XP atual"
-            value={skillForm.current_xp}
-            onChange={(e) =>
-              setSkillForm((current) => ({
-                ...current,
-                current_xp: Number(e.target.value) || 0,
-              }))
-            }
-          />
-          <input
-            className="p-1 border rounded-md border-graySm"
-            type="number"
-            min="1"
-            placeholder="XP alvo"
-            value={skillForm.target_xp}
-            onChange={(e) =>
-              setSkillForm((current) => ({
-                ...current,
-                target_xp: Number(e.target.value) || 1,
-              }))
-            }
-          />
-          <input
-            className="p-1 border rounded-md border-graySm"
-            type="number"
-            min="1"
-            placeholder="Nível"
-            value={skillForm.level}
-            onChange={(e) =>
-              setSkillForm((current) => ({
-                ...current,
-                level: Number(e.target.value) || 1,
-              }))
-            }
-          />
+            <input
+              className="p-1 border rounded-md border-graySm"
+              placeholder="Título da skill"
+              value={skillForm.title}
+              onChange={(e) =>
+                setSkillForm((current) => ({
+                  ...current,
+                  title: e.target.value,
+                }))
+              }
+            />
+            <input
+              className="p-1 border rounded-md border-graySm"
+              type="number"
+              min="0"
+              placeholder="XP atual"
+              value={skillForm.current_xp}
+              onChange={(e) =>
+                setSkillForm((current) => ({
+                  ...current,
+                  current_xp: Number(e.target.value) || 0,
+                }))
+              }
+            />
+            <input
+              className="p-1 border rounded-md border-graySm"
+              type="number"
+              min="1"
+              placeholder="XP alvo"
+              value={skillForm.target_xp}
+              onChange={(e) =>
+                setSkillForm((current) => ({
+                  ...current,
+                  target_xp: Number(e.target.value) || 1,
+                }))
+              }
+            />
+            <input
+              className="p-1 border rounded-md border-graySm"
+              type="number"
+              min="1"
+              placeholder="Nível"
+              value={skillForm.level}
+              onChange={(e) =>
+                setSkillForm((current) => ({
+                  ...current,
+                  level: Number(e.target.value) || 1,
+                }))
+              }
+            />
           </div>
         ) : null}
 

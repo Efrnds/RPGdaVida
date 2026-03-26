@@ -20,7 +20,11 @@ export default function DinheiroPage() {
   const [deviceId, setDeviceId] = useState("anonymous-device");
   const [profile, setProfile] = useState(null);
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState({ title: "", cost_coins: 20, description: "" });
+  const [form, setForm] = useState({
+    title: "",
+    cost_coins: 20,
+    description: "",
+  });
   const [message, setMessage] = useState("");
   const [itemToDelete, setItemToDelete] = useState(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -32,8 +36,14 @@ export default function DinheiroPage() {
 
   const fetchData = async (id) => {
     const [profileRes, marketRes] = await Promise.all([
-      fetch("/api/profile", { headers: { "x-device-id": id }, cache: "no-store" }),
-      fetch("/api/market", { headers: { "x-device-id": id }, cache: "no-store" }),
+      fetch("/api/profile", {
+        headers: { "x-device-id": id },
+        cache: "no-store",
+      }),
+      fetch("/api/market", {
+        headers: { "x-device-id": id },
+        cache: "no-store",
+      }),
     ]);
 
     if (profileRes.ok) {
@@ -111,12 +121,19 @@ export default function DinheiroPage() {
       description="Troque moedas por recompensas e mantenha sua economia de jogo ativa."
       icon="🏪"
     >
-
-      {message ? <p className="p-2 text-sm text-green-700 bg-green-100 rounded-md">{message}</p> : null}
+      {message ? (
+        <p className="p-2 text-sm text-green-700 bg-green-100 rounded-md">
+          {message}
+        </p>
+      ) : null}
 
       <section className="max-w-5xl p-3 mx-auto border rounded-md border-graySm bg-white">
-        <p className="text-lg font-semibold">Moedas atuais: {profile?.coins ?? 0}</p>
-        <p className="text-sm text-grayMd">Ganhe moedas concluindo bons hábitos e troque no mercado.</p>
+        <p className="text-lg font-semibold">
+          Moedas atuais: {profile?.coins ?? 0}
+        </p>
+        <p className="text-sm text-grayMd">
+          Ganhe moedas concluindo bons hábitos e troque no mercado.
+        </p>
       </section>
 
       <section className="max-w-5xl mx-auto">
@@ -130,16 +147,31 @@ export default function DinheiroPage() {
 
       <section className="grid max-w-5xl grid-cols-1 gap-3 mx-auto sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <article key={item.id} className="overflow-hidden border rounded-md border-graySm bg-white">
+          <article
+            key={item.id}
+            className="overflow-hidden border rounded-md border-graySm bg-white"
+          >
             <div className="grid h-32 place-items-center bg-linear-to-br from-zinc-200 to-zinc-100">
               <span className="text-6xl">{rewardVisual(item.title)}</span>
             </div>
             <div className="p-3 space-y-2">
               <p className="font-semibold truncate">{item.title}</p>
-              <p className="text-sm font-bold text-primary">{item.cost_coins} moedas</p>
+              <p className="text-sm font-bold text-primary">
+                {item.cost_coins} moedas
+              </p>
               <div className="flex gap-2">
-                <button onClick={() => redeemItem(item.id)} className="flex-1 px-2 py-1 text-xs text-white rounded-md bg-primary">Resgatar</button>
-                <button onClick={() => setItemToDelete(item)} className="px-2 py-1 text-xs text-white bg-red-500 rounded-md">X</button>
+                <button
+                  onClick={() => redeemItem(item.id)}
+                  className="flex-1 px-2 py-1 text-xs text-white rounded-md bg-primary"
+                >
+                  Resgatar
+                </button>
+                <button
+                  onClick={() => setItemToDelete(item)}
+                  className="px-2 py-1 text-xs text-white bg-red-500 rounded-md"
+                >
+                  X
+                </button>
               </div>
             </div>
           </article>
@@ -163,16 +195,28 @@ export default function DinheiroPage() {
             type="number"
             min="1"
             value={form.cost_coins}
-            onChange={(e) => setForm((c) => ({ ...c, cost_coins: Number(e.target.value) || 1 }))}
+            onChange={(e) =>
+              setForm((c) => ({
+                ...c,
+                cost_coins: Number(e.target.value) || 1,
+              }))
+            }
           />
           <textarea
             className="p-2 border rounded-md border-graySm"
             rows={2}
             placeholder="Descrição (opcional)"
             value={form.description}
-            onChange={(e) => setForm((c) => ({ ...c, description: e.target.value }))}
+            onChange={(e) =>
+              setForm((c) => ({ ...c, description: e.target.value }))
+            }
           />
-          <button onClick={createItem} className="p-2 text-white rounded-md bg-primary">Criar item</button>
+          <button
+            onClick={createItem}
+            className="p-2 text-white rounded-md bg-primary"
+          >
+            Criar item
+          </button>
         </div>
       </FormModal>
 

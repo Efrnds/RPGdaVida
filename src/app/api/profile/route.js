@@ -19,7 +19,7 @@ export async function GET(req) {
   } catch {
     return NextResponse.json(
       { error: "Falha ao carregar perfil." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -38,7 +38,7 @@ export async function PUT(req) {
   } catch {
     return NextResponse.json(
       { error: "Falha ao atualizar perfil." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

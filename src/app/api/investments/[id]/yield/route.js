@@ -16,11 +16,17 @@ export async function POST(req, { params }) {
     const data = applyInvestmentYield(getDeviceId(req), id);
 
     if (!data?.ok) {
-      return NextResponse.json({ error: "Investimento inválido." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Investimento inválido." },
+        { status: 400 },
+      );
     }
 
     return NextResponse.json({ data });
   } catch {
-    return NextResponse.json({ error: "Falha ao aplicar rendimento." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao aplicar rendimento." },
+      { status: 500 },
+    );
   }
 }

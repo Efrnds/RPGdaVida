@@ -18,14 +18,17 @@ export async function PUT(req, { params }) {
     const activity = updateActivity(deviceId, id, body);
 
     if (!activity) {
-      return NextResponse.json({ error: "Atividade não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Atividade não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data: activity });
   } catch {
     return NextResponse.json(
       { error: "Falha ao atualizar atividade." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -41,14 +44,17 @@ export async function DELETE(req, { params }) {
     const ok = deleteActivity(deviceId, id);
 
     if (!ok) {
-      return NextResponse.json({ error: "Atividade não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Atividade não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
       { error: "Falha ao remover atividade." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

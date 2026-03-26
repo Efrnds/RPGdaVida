@@ -14,7 +14,7 @@ export async function POST(req) {
     if (!validateCredentials(email, password)) {
       return NextResponse.json(
         { error: "Credenciais inválidas." },
-        { status: 401 }
+        { status: 401 },
       );
     }
 

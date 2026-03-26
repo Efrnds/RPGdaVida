@@ -17,7 +17,9 @@ export default function Task({
         </div>
         <div className="flex gap-1 text-[10px] h-fit">
           <p className="px-1 rounded-sm bg-graySm text-grayMd">Level {level}</p>
-          <p className="px-1 font-semibold border rounded-sm border-graySm text-grayMd">{status}</p>
+          <p className="px-1 font-semibold border rounded-sm border-graySm text-grayMd">
+            {status}
+          </p>
         </div>
       </div>
     );

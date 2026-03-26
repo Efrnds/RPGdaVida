@@ -58,7 +58,9 @@ export default function ConfiguracoesPage() {
       setTheme(await fetchSetting(id, CONFIG_KEYS.theme, "auto"));
       setNotifications(await fetchSetting(id, CONFIG_KEYS.notifications, true));
       setXpBoost(await fetchSetting(id, CONFIG_KEYS.xpBoost, false));
-      setReducedMotion(await fetchSetting(id, CONFIG_KEYS.reducedMotion, false));
+      setReducedMotion(
+        await fetchSetting(id, CONFIG_KEYS.reducedMotion, false),
+      );
       setCompactUi(await fetchSetting(id, CONFIG_KEYS.compactUi, false));
       setStartPage(await fetchSetting(id, CONFIG_KEYS.startPage, "/home"));
 
@@ -109,8 +111,8 @@ export default function ConfiguracoesPage() {
             "x-device-id": deviceId,
           },
           body: JSON.stringify({ value }),
-        })
-      )
+        }),
+      ),
     );
 
     await fetch("/api/profile", {
@@ -123,7 +125,9 @@ export default function ConfiguracoesPage() {
     });
 
     applyThemePreference(theme);
-    window.dispatchEvent(new CustomEvent("rpg-theme-change", { detail: theme }));
+    window.dispatchEvent(
+      new CustomEvent("rpg-theme-change", { detail: theme }),
+    );
 
     setMessage("Configurações salvas.");
     setTimeout(() => setMessage(""), 2000);
@@ -137,13 +141,20 @@ export default function ConfiguracoesPage() {
       icon="🎛️"
       maxWidth="max-w-3xl"
     >
-
-      {message ? <p className="p-2 text-sm text-green-700 bg-green-100 rounded-md">{message}</p> : null}
+      {message ? (
+        <p className="p-2 text-sm text-green-700 bg-green-100 rounded-md">
+          {message}
+        </p>
+      ) : null}
 
       <section className="grid max-w-3xl gap-3 p-3 mx-auto border rounded-md border-graySm bg-white">
         <label className="grid gap-1 text-sm">
           Tema
-          <select className="p-2 border rounded-md border-graySm" value={theme} onChange={(e) => setTheme(e.target.value)}>
+          <select
+            className="p-2 border rounded-md border-graySm"
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+          >
             <option value="auto">Automático</option>
             <option value="dark">Escuro</option>
             <option value="light">Claro</option>
@@ -152,7 +163,11 @@ export default function ConfiguracoesPage() {
 
         <label className="grid gap-1 text-sm">
           Página inicial
-          <select className="p-2 border rounded-md border-graySm" value={startPage} onChange={(e) => setStartPage(e.target.value)}>
+          <select
+            className="p-2 border rounded-md border-graySm"
+            value={startPage}
+            onChange={(e) => setStartPage(e.target.value)}
+          >
             <option value="/home">Menu principal</option>
             <option value="/home/skills">Skills</option>
             <option value="/home/dinheiro">Loja</option>
@@ -162,22 +177,38 @@ export default function ConfiguracoesPage() {
         </label>
 
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={notifications} onChange={(e) => setNotifications(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={notifications}
+            onChange={(e) => setNotifications(e.target.checked)}
+          />
           Notificações diárias
         </label>
 
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={xpBoost} onChange={(e) => setXpBoost(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={xpBoost}
+            onChange={(e) => setXpBoost(e.target.checked)}
+          />
           Boost de XP (modo foco)
         </label>
 
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={reducedMotion} onChange={(e) => setReducedMotion(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={reducedMotion}
+            onChange={(e) => setReducedMotion(e.target.checked)}
+          />
           Reduzir animações
         </label>
 
         <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={compactUi} onChange={(e) => setCompactUi(e.target.checked)} />
+          <input
+            type="checkbox"
+            checked={compactUi}
+            onChange={(e) => setCompactUi(e.target.checked)}
+          />
           Interface compacta
         </label>
 
@@ -210,7 +241,9 @@ export default function ConfiguracoesPage() {
             className="p-2 border rounded-md border-graySm"
             placeholder="Objetivo secundário"
             value={profile.secondary_objective || ""}
-            onChange={(e) => patchProfile("secondary_objective", e.target.value)}
+            onChange={(e) =>
+              patchProfile("secondary_objective", e.target.value)
+            }
           />
           <input
             className="p-2 border rounded-md border-graySm"
@@ -226,7 +259,9 @@ export default function ConfiguracoesPage() {
           />
         </div>
 
-        <button onClick={save} className="p-2 text-white rounded-md bg-primary">Salvar</button>
+        <button onClick={save} className="p-2 text-white rounded-md bg-primary">
+          Salvar
+        </button>
       </section>
     </ModuleScreen>
   );

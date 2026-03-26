@@ -257,7 +257,7 @@ export function ensureSeedData(deviceId) {
         targetXp,
         level,
         createdAt,
-        createdAt
+        createdAt,
       );
     }
   }
@@ -288,7 +288,7 @@ export function ensureSeedData(deviceId) {
         status,
         dueLabel,
         createdAt,
-        createdAt
+        createdAt,
       );
     }
   }
@@ -317,7 +317,12 @@ export function ensureSeedData(deviceId) {
         "Parabéns, você não utilizou o limite especial na última semana! Sem penalidade de Limite Especial pra você!",
         null,
       ],
-      ["@18 de Agosto, 2024 7:36 AM", "won", "Você ganhou 5 EXP! - Fez academia.", "+5 EXP!"],
+      [
+        "@18 de Agosto, 2024 7:36 AM",
+        "won",
+        "Você ganhou 5 EXP! - Fez academia.",
+        "+5 EXP!",
+      ],
     ];
 
     for (const [title, status, description, valuesText] of defaults) {
@@ -329,7 +334,7 @@ export function ensureSeedData(deviceId) {
         description,
         valuesText,
         createdAt,
-        createdAt
+        createdAt,
       );
     }
   }
@@ -353,7 +358,14 @@ export function ensureSeedData(deviceId) {
       ["Comer ultraprocessado", "bad", "weekly", 0, 15, 1],
     ];
 
-    for (const [title, type, frequency, rewardCoins, damageHp, active] of defaults) {
+    for (const [
+      title,
+      type,
+      frequency,
+      rewardCoins,
+      damageHp,
+      active,
+    ] of defaults) {
       insert.run(
         createId(),
         deviceId,
@@ -364,7 +376,7 @@ export function ensureSeedData(deviceId) {
         damageHp,
         active,
         createdAt,
-        createdAt
+        createdAt,
       );
     }
   }
@@ -396,7 +408,7 @@ export function ensureSeedData(deviceId) {
         description,
         active,
         createdAt,
-        createdAt
+        createdAt,
       );
     }
   }
@@ -416,11 +428,38 @@ export function ensureSeedData(deviceId) {
     const createdAt = now();
     const defaults = [
       ["Fechar 20 treinos no mês", "saude", "in_progress", 20, 8, 50, 40, null],
-      ["Ler 3 livros no trimestre", "aprendizado", "in_progress", 3, 1, 70, 60, null],
-      ["Juntar 1000 moedas", "financas", "in_progress", 1000, 120, 120, 80, null],
+      [
+        "Ler 3 livros no trimestre",
+        "aprendizado",
+        "in_progress",
+        3,
+        1,
+        70,
+        60,
+        null,
+      ],
+      [
+        "Juntar 1000 moedas",
+        "financas",
+        "in_progress",
+        1000,
+        120,
+        120,
+        80,
+        null,
+      ],
     ];
 
-    for (const [title, category, status, targetValue, currentValue, rewardCoins, rewardXp, dueDate] of defaults) {
+    for (const [
+      title,
+      category,
+      status,
+      targetValue,
+      currentValue,
+      rewardCoins,
+      rewardXp,
+      dueDate,
+    ] of defaults) {
       insert.run(
         createId(),
         deviceId,
@@ -434,7 +473,7 @@ export function ensureSeedData(deviceId) {
         dueDate,
         createdAt,
         createdAt,
-        null
+        null,
       );
     }
   }
@@ -452,12 +491,40 @@ export function ensureSeedData(deviceId) {
 
     const createdAt = now();
     const defaults = [
-      ["Projeto app RPG da Vida", "projects", "active", "Implementar módulo de metas", "Roadmap da semana", null],
-      ["Área: Saúde", "areas", "active", "Treinar 4x semana", "Monitorar sono e alimentação", null],
-      ["Recurso: Livro Hábitos Atômicos", "resources", "active", "Ler capítulo 3", "Anotar insights", null],
+      [
+        "Projeto app RPG da Vida",
+        "projects",
+        "active",
+        "Implementar módulo de metas",
+        "Roadmap da semana",
+        null,
+      ],
+      [
+        "Área: Saúde",
+        "areas",
+        "active",
+        "Treinar 4x semana",
+        "Monitorar sono e alimentação",
+        null,
+      ],
+      [
+        "Recurso: Livro Hábitos Atômicos",
+        "resources",
+        "active",
+        "Ler capítulo 3",
+        "Anotar insights",
+        null,
+      ],
     ];
 
-    for (const [title, bucket, status, nextAction, notes, dueDate] of defaults) {
+    for (const [
+      title,
+      bucket,
+      status,
+      nextAction,
+      notes,
+      dueDate,
+    ] of defaults) {
       insert.run(
         createId(),
         deviceId,
@@ -468,7 +535,7 @@ export function ensureSeedData(deviceId) {
         notes,
         dueDate,
         createdAt,
-        createdAt
+        createdAt,
       );
     }
   }
@@ -479,10 +546,12 @@ export function ensureSeedData(deviceId) {
 
   if (!hasJournal) {
     const createdAt = now();
-    db.prepare(`
+    db.prepare(
+      `
       INSERT INTO journal_entries (id, device_id, title, content, mood, tags, created_at, updated_at)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
+    `,
+    ).run(
       createId(),
       deviceId,
       "Primeira entrada",
@@ -490,7 +559,7 @@ export function ensureSeedData(deviceId) {
       "motivated",
       "inicio,rotina",
       createdAt,
-      createdAt
+      createdAt,
     );
   }
 
@@ -500,11 +569,13 @@ export function ensureSeedData(deviceId) {
 
   if (!hasInvestments) {
     const createdAt = now();
-    db.prepare(`
+    db.prepare(
+      `
       INSERT INTO investments (
         id, device_id, title, invested_coins, current_value, monthly_yield_percent, notes, created_at, updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
+    `,
+    ).run(
       createId(),
       deviceId,
       "Reserva de emergência",
@@ -513,14 +584,14 @@ export function ensureSeedData(deviceId) {
       0.8,
       "Aporte mensal constante",
       createdAt,
-      createdAt
+      createdAt,
     );
   }
 }
 
 export function getSetting(deviceId, key) {
   const stmt = db.prepare(
-    "SELECT value FROM settings WHERE device_id = ? AND key = ?"
+    "SELECT value FROM settings WHERE device_id = ? AND key = ?",
   );
   const row = stmt.get(deviceId, key);
 
@@ -594,7 +665,7 @@ export function upsertProfile(deviceId, payload) {
     Math.min(Math.max(toInteger(payload?.goals_completion, 0), 0), 100),
     Math.max(toInteger(payload?.xp_current, 0), 0),
     Math.max(toInteger(payload?.xp_target, 1), 1),
-    now()
+    now(),
   );
 
   return getProfile(deviceId);
@@ -602,23 +673,29 @@ export function upsertProfile(deviceId, payload) {
 
 function applyProfileProgress(
   deviceId,
-  { coinsDelta = 0, xpDelta = 0, hpDelta = 0 }
+  { coinsDelta = 0, xpDelta = 0, hpDelta = 0 },
 ) {
   const profile = getProfile(deviceId);
   if (!profile) return null;
 
-  let nextCoins = Math.max(0, toInteger(profile.coins, 0) + toInteger(coinsDelta, 0));
+  let nextCoins = Math.max(
+    0,
+    toInteger(profile.coins, 0) + toInteger(coinsDelta, 0),
+  );
   let nextHp = Math.max(
     0,
     Math.min(
       toInteger(profile.hp_total, 100),
-      toInteger(profile.hp_current, 0) + toInteger(hpDelta, 0)
-    )
+      toInteger(profile.hp_current, 0) + toInteger(hpDelta, 0),
+    ),
   );
 
   let nextLevel = Math.max(1, toInteger(profile.level, 1));
   let nextXpTarget = Math.max(1, toInteger(profile.xp_target, 1));
-  let nextXpCurrent = Math.max(0, toInteger(profile.xp_current, 0) + toInteger(xpDelta, 0));
+  let nextXpCurrent = Math.max(
+    0,
+    toInteger(profile.xp_current, 0) + toInteger(xpDelta, 0),
+  );
 
   while (nextXpCurrent >= nextXpTarget) {
     nextXpCurrent -= nextXpTarget;
@@ -642,7 +719,7 @@ export function listSkills(deviceId) {
   ensureSeedData(deviceId);
   return db
     .prepare(
-      "SELECT id, title, current_xp, target_xp, level, created_at, updated_at FROM skills WHERE device_id = ? ORDER BY created_at DESC"
+      "SELECT id, title, current_xp, target_xp, level, created_at, updated_at FROM skills WHERE device_id = ? ORDER BY created_at DESC",
     )
     .all(deviceId);
 }
@@ -664,7 +741,7 @@ export function createSkill(deviceId, payload) {
     Math.max(toInteger(payload?.target_xp, 1), 1),
     Math.max(toInteger(payload?.level, 1), 1),
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM skills WHERE id = ?").get(id);
@@ -690,7 +767,7 @@ export function updateSkill(deviceId, id, payload) {
     Math.max(toInteger(payload?.level, current.level), 1),
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -718,11 +795,13 @@ export function addSkillXp(deviceId, id, xpAmount = 1) {
     targetXp = Math.round(targetXp * 1.2);
   }
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE skills
     SET current_xp = ?, target_xp = ?, level = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(currentXp, targetXp, level, now(), id, deviceId);
+  `,
+  ).run(currentXp, targetXp, level, now(), id, deviceId);
 
   const profile = applyProfileProgress(deviceId, { xpDelta: gain });
 
@@ -750,7 +829,7 @@ export function listTasks(deviceId) {
   ensureSeedData(deviceId);
   return db
     .prepare(
-      "SELECT id, title, level, status, due_label, created_at, updated_at FROM tasks WHERE device_id = ? ORDER BY created_at DESC"
+      "SELECT id, title, level, status, due_label, created_at, updated_at FROM tasks WHERE device_id = ? ORDER BY created_at DESC",
     )
     .all(deviceId);
 }
@@ -771,7 +850,7 @@ export function createTask(deviceId, payload) {
     payload?.status === "CONCLUÍDO" ? "CONCLUÍDO" : "A FAZER",
     payload?.due_label?.trim() || null,
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM tasks WHERE id = ?").get(id);
@@ -796,7 +875,7 @@ export function updateTask(deviceId, id, payload) {
     payload?.due_label?.trim() || null,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -813,7 +892,7 @@ export function listActivities(deviceId) {
   ensureSeedData(deviceId);
   return db
     .prepare(
-      "SELECT id, title, status, description, values_text, created_at, updated_at FROM activities WHERE device_id = ? ORDER BY created_at DESC"
+      "SELECT id, title, status, description, values_text, created_at, updated_at FROM activities WHERE device_id = ? ORDER BY created_at DESC",
     )
     .all(deviceId);
 }
@@ -831,13 +910,11 @@ export function createActivity(deviceId, payload) {
     id,
     deviceId,
     payload?.title?.trim() || null,
-    ["won", "lost", "limit"].includes(payload?.status)
-      ? payload.status
-      : "won",
+    ["won", "lost", "limit"].includes(payload?.status) ? payload.status : "won",
     payload?.description?.trim() || "Nova atividade",
     payload?.values_text?.trim() || null,
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM activities WHERE id = ?").get(id);
@@ -865,7 +942,7 @@ export function updateActivity(deviceId, id, payload) {
     payload?.values_text?.trim() || null,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -875,7 +952,7 @@ export function updateActivity(deviceId, id, payload) {
 
 export function deleteActivity(deviceId, id) {
   const stmt = db.prepare(
-    "DELETE FROM activities WHERE id = ? AND device_id = ?"
+    "DELETE FROM activities WHERE id = ? AND device_id = ?",
   );
   return stmt.run(id, deviceId).changes > 0;
 }
@@ -949,7 +1026,7 @@ export function createHabit(deviceId, payload) {
     habitType === "bad" ? Math.max(toInteger(payload?.damage_hp, 1), 1) : 0,
     payload?.active === 0 ? 0 : 1,
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM habits WHERE id = ?").get(id);
@@ -962,15 +1039,18 @@ export function updateHabit(deviceId, id, payload) {
 
   if (!current) return null;
 
-  const type = payload?.type === "bad" || payload?.type === "good"
-    ? payload.type
-    : current.type;
+  const type =
+    payload?.type === "bad" || payload?.type === "good"
+      ? payload.type
+      : current.type;
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE habits
     SET title = ?, type = ?, frequency = ?, reward_coins = ?, damage_hp = ?, active = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(
+  `,
+  ).run(
     payload?.title?.trim() || current.title,
     type,
     ["daily", "weekly", "monthly"].includes(payload?.frequency)
@@ -985,7 +1065,7 @@ export function updateHabit(deviceId, id, payload) {
     payload?.active === 0 ? 0 : 1,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -1013,7 +1093,7 @@ export function completeHabit(deviceId, habitId) {
   const timestamp = now();
 
   db.prepare(
-    "INSERT INTO habit_completions (id, device_id, habit_id, completed_at, created_at) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO habit_completions (id, device_id, habit_id, completed_at, created_at) VALUES (?, ?, ?, ?, ?)",
   ).run(createId(), deviceId, habitId, timestamp, timestamp);
 
   const xpByFrequency = {
@@ -1059,7 +1139,7 @@ export function listMarketItems(deviceId) {
   ensureSeedData(deviceId);
   return db
     .prepare(
-      "SELECT * FROM market_items WHERE device_id = ? ORDER BY created_at DESC"
+      "SELECT * FROM market_items WHERE device_id = ? ORDER BY created_at DESC",
     )
     .all(deviceId);
 }
@@ -1068,11 +1148,13 @@ export function createMarketItem(deviceId, payload) {
   const timestamp = now();
   const id = createId();
 
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO market_items (
       id, device_id, title, cost_coins, description, active, created_at, updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  `,
+  ).run(
     id,
     deviceId,
     payload?.title?.trim() || "Nova recompensa",
@@ -1080,7 +1162,7 @@ export function createMarketItem(deviceId, payload) {
     payload?.description?.trim() || "",
     payload?.active === 0 ? 0 : 1,
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM market_items WHERE id = ?").get(id);
@@ -1092,18 +1174,20 @@ export function updateMarketItem(deviceId, id, payload) {
     .get(id, deviceId);
   if (!current) return null;
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE market_items
     SET title = ?, cost_coins = ?, description = ?, active = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(
+  `,
+  ).run(
     payload?.title?.trim() || current.title,
     Math.max(toInteger(payload?.cost_coins, current.cost_coins), 1),
     payload?.description?.trim() ?? current.description,
     payload?.active === 0 ? 0 : 1,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -1125,7 +1209,8 @@ export function redeemMarketItem(deviceId, itemId) {
   const item = db
     .prepare("SELECT * FROM market_items WHERE id = ? AND device_id = ?")
     .get(itemId, deviceId);
-  if (!item || item.active !== 1) return { ok: false, reason: "ITEM_NOT_FOUND" };
+  if (!item || item.active !== 1)
+    return { ok: false, reason: "ITEM_NOT_FOUND" };
 
   let profile = getProfile(deviceId);
   if (toInteger(profile?.coins, 0) < item.cost_coins) {
@@ -1134,7 +1219,7 @@ export function redeemMarketItem(deviceId, itemId) {
 
   const timestamp = now();
   db.prepare(
-    "INSERT INTO market_redemptions (id, device_id, item_id, cost_coins, redeemed_at, created_at) VALUES (?, ?, ?, ?, ?, ?)"
+    "INSERT INTO market_redemptions (id, device_id, item_id, cost_coins, redeemed_at, created_at) VALUES (?, ?, ?, ?, ?, ?)",
   ).run(createId(), deviceId, itemId, item.cost_coins, timestamp, timestamp);
 
   profile = applyProfileProgress(deviceId, {
@@ -1154,7 +1239,8 @@ export function redeemMarketItem(deviceId, itemId) {
 
 export function getMetrics(deviceId, days = 30) {
   ensureSeedData(deviceId);
-  const limitDate = now() - Math.max(toInteger(days, 30), 1) * 24 * 60 * 60 * 1000;
+  const limitDate =
+    now() - Math.max(toInteger(days, 30), 1) * 24 * 60 * 60 * 1000;
 
   const completions = db
     .prepare(
@@ -1164,7 +1250,7 @@ export function getMetrics(deviceId, days = 30) {
       INNER JOIN habits h ON h.id = hc.habit_id
       WHERE hc.device_id = ? AND hc.completed_at >= ?
       GROUP BY h.type
-      `
+      `,
     )
     .all(deviceId, limitDate);
 
@@ -1178,7 +1264,7 @@ export function getMetrics(deviceId, days = 30) {
       FROM habit_completions hc
       INNER JOIN habits h ON h.id = hc.habit_id
       WHERE hc.device_id = ? AND hc.completed_at >= ? AND h.type = 'good'
-      `
+      `,
     )
     .get(deviceId, limitDate)?.total;
 
@@ -1189,13 +1275,13 @@ export function getMetrics(deviceId, days = 30) {
       FROM habit_completions hc
       INNER JOIN habits h ON h.id = hc.habit_id
       WHERE hc.device_id = ? AND hc.completed_at >= ? AND h.type = 'bad'
-      `
+      `,
     )
     .get(deviceId, limitDate)?.total;
 
   const redemptions = db
     .prepare(
-      "SELECT COUNT(*) AS total, COALESCE(SUM(cost_coins), 0) AS spent FROM market_redemptions WHERE device_id = ? AND redeemed_at >= ?"
+      "SELECT COUNT(*) AS total, COALESCE(SUM(cost_coins), 0) AS spent FROM market_redemptions WHERE device_id = ? AND redeemed_at >= ?",
     )
     .get(deviceId, limitDate);
 
@@ -1222,12 +1308,14 @@ export function createGoal(deviceId, payload) {
   const timestamp = now();
   const id = createId();
 
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO goals (
       id, device_id, title, category, status, target_value, current_value,
       reward_coins, reward_xp, due_date, created_at, updated_at, completed_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  `,
+  ).run(
     id,
     deviceId,
     payload?.title?.trim() || "Nova meta",
@@ -1240,7 +1328,7 @@ export function createGoal(deviceId, payload) {
     payload?.due_date || null,
     timestamp,
     timestamp,
-    null
+    null,
   );
 
   return db.prepare("SELECT * FROM goals WHERE id = ?").get(id);
@@ -1254,19 +1342,21 @@ export function updateGoal(deviceId, id, payload) {
 
   const targetValue = Math.max(
     toInteger(payload?.target_value, current.target_value),
-    1
+    1,
   );
   const currentValue = Math.min(
     Math.max(toInteger(payload?.current_value, current.current_value), 0),
-    targetValue
+    targetValue,
   );
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE goals
     SET title = ?, category = ?, status = ?, target_value = ?, current_value = ?,
         reward_coins = ?, reward_xp = ?, due_date = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(
+  `,
+  ).run(
     payload?.title?.trim() || current.title,
     payload?.category?.trim() || current.category,
     payload?.status === "done" ? "done" : "in_progress",
@@ -1277,7 +1367,7 @@ export function updateGoal(deviceId, id, payload) {
     payload?.due_date ?? current.due_date,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -1287,8 +1377,9 @@ export function updateGoal(deviceId, id, payload) {
 
 export function deleteGoal(deviceId, id) {
   return (
-    db.prepare("DELETE FROM goals WHERE id = ? AND device_id = ?").run(id, deviceId)
-      .changes > 0
+    db
+      .prepare("DELETE FROM goals WHERE id = ? AND device_id = ?")
+      .run(id, deviceId).changes > 0
   );
 }
 
@@ -1300,7 +1391,7 @@ export function completeGoal(deviceId, id) {
   if (goal.status === "done") return { goal, profile: getProfile(deviceId) };
 
   db.prepare(
-    "UPDATE goals SET status = 'done', current_value = target_value, updated_at = ?, completed_at = ? WHERE id = ? AND device_id = ?"
+    "UPDATE goals SET status = 'done', current_value = target_value, updated_at = ?, completed_at = ? WHERE id = ? AND device_id = ?",
   ).run(now(), now(), id, deviceId);
 
   const profile = applyProfileProgress(deviceId, {
@@ -1325,18 +1416,22 @@ export function completeGoal(deviceId, id) {
 export function listParaItems(deviceId) {
   ensureSeedData(deviceId);
   return db
-    .prepare("SELECT * FROM para_items WHERE device_id = ? ORDER BY created_at DESC")
+    .prepare(
+      "SELECT * FROM para_items WHERE device_id = ? ORDER BY created_at DESC",
+    )
     .all(deviceId);
 }
 
 export function createParaItem(deviceId, payload) {
   const timestamp = now();
   const id = createId();
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO para_items (
       id, device_id, title, bucket, status, next_action, notes, due_date, created_at, updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  `,
+  ).run(
     id,
     deviceId,
     payload?.title?.trim() || "Novo item PARA",
@@ -1350,7 +1445,7 @@ export function createParaItem(deviceId, payload) {
     payload?.notes?.trim() || "",
     payload?.due_date || null,
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM para_items WHERE id = ?").get(id);
@@ -1362,11 +1457,13 @@ export function updateParaItem(deviceId, id, payload) {
     .get(id, deviceId);
   if (!current) return null;
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE para_items
     SET title = ?, bucket = ?, status = ?, next_action = ?, notes = ?, due_date = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(
+  `,
+  ).run(
     payload?.title?.trim() || current.title,
     ["projects", "areas", "resources", "archive"].includes(payload?.bucket)
       ? payload.bucket
@@ -1379,7 +1476,7 @@ export function updateParaItem(deviceId, id, payload) {
     payload?.due_date ?? current.due_date,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   if (payload?.status === "done" && current.status !== "done") {
@@ -1409,7 +1506,7 @@ export function listJournalEntries(deviceId) {
   ensureSeedData(deviceId);
   return db
     .prepare(
-      "SELECT * FROM journal_entries WHERE device_id = ? ORDER BY created_at DESC"
+      "SELECT * FROM journal_entries WHERE device_id = ? ORDER BY created_at DESC",
     )
     .all(deviceId);
 }
@@ -1418,10 +1515,12 @@ export function createJournalEntry(deviceId, payload) {
   const timestamp = now();
   const id = createId();
 
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO journal_entries (id, device_id, title, content, mood, tags, created_at, updated_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  `,
+  ).run(
     id,
     deviceId,
     payload?.title?.trim() || null,
@@ -1429,7 +1528,7 @@ export function createJournalEntry(deviceId, payload) {
     payload?.mood?.trim() || "neutral",
     payload?.tags?.trim() || "",
     timestamp,
-    timestamp
+    timestamp,
   );
 
   applyProfileProgress(deviceId, { xpDelta: 4 });
@@ -1443,18 +1542,20 @@ export function updateJournalEntry(deviceId, id, payload) {
     .get(id, deviceId);
   if (!current) return null;
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE journal_entries
     SET title = ?, content = ?, mood = ?, tags = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(
+  `,
+  ).run(
     payload?.title?.trim() || null,
     payload?.content?.trim() || current.content,
     payload?.mood?.trim() || current.mood,
     payload?.tags?.trim() || current.tags,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -1473,7 +1574,9 @@ export function deleteJournalEntry(deviceId, id) {
 export function listInvestments(deviceId) {
   ensureSeedData(deviceId);
   return db
-    .prepare("SELECT * FROM investments WHERE device_id = ? ORDER BY created_at DESC")
+    .prepare(
+      "SELECT * FROM investments WHERE device_id = ? ORDER BY created_at DESC",
+    )
     .all(deviceId);
 }
 
@@ -1482,13 +1585,18 @@ export function createInvestment(deviceId, payload) {
   const id = createId();
 
   const invested = Math.max(toInteger(payload?.invested_coins, 0), 0);
-  const currentValue = Math.max(toInteger(payload?.current_value, invested), invested);
+  const currentValue = Math.max(
+    toInteger(payload?.current_value, invested),
+    invested,
+  );
 
-  db.prepare(`
+  db.prepare(
+    `
     INSERT INTO investments (
       id, device_id, title, invested_coins, current_value, monthly_yield_percent, notes, created_at, updated_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `).run(
+  `,
+  ).run(
     id,
     deviceId,
     payload?.title?.trim() || "Novo investimento",
@@ -1497,7 +1605,7 @@ export function createInvestment(deviceId, payload) {
     Number(payload?.monthly_yield_percent) || 0,
     payload?.notes?.trim() || "",
     timestamp,
-    timestamp
+    timestamp,
   );
 
   return db.prepare("SELECT * FROM investments WHERE id = ?").get(id);
@@ -1509,11 +1617,13 @@ export function updateInvestment(deviceId, id, payload) {
     .get(id, deviceId);
   if (!current) return null;
 
-  db.prepare(`
+  db.prepare(
+    `
     UPDATE investments
     SET title = ?, invested_coins = ?, current_value = ?, monthly_yield_percent = ?, notes = ?, updated_at = ?
     WHERE id = ? AND device_id = ?
-  `).run(
+  `,
+  ).run(
     payload?.title?.trim() || current.title,
     Math.max(toInteger(payload?.invested_coins, current.invested_coins), 0),
     Math.max(toInteger(payload?.current_value, current.current_value), 0),
@@ -1521,7 +1631,7 @@ export function updateInvestment(deviceId, id, payload) {
     payload?.notes?.trim() ?? current.notes,
     now(),
     id,
-    deviceId
+    deviceId,
   );
 
   return db
@@ -1552,7 +1662,7 @@ export function contributeInvestment(deviceId, id, coinsAmount) {
   applyProfileProgress(deviceId, { coinsDelta: -amount, xpDelta: 6 });
 
   db.prepare(
-    "UPDATE investments SET invested_coins = invested_coins + ?, current_value = current_value + ?, updated_at = ? WHERE id = ? AND device_id = ?"
+    "UPDATE investments SET invested_coins = invested_coins + ?, current_value = current_value + ?, updated_at = ? WHERE id = ? AND device_id = ?",
   ).run(amount, amount, now(), id, deviceId);
 
   createActivity(deviceId, {
@@ -1579,11 +1689,14 @@ export function applyInvestmentYield(deviceId, id) {
 
   const gain = Math.max(
     1,
-    Math.round((Number(investment.monthly_yield_percent || 0) / 100) * investment.current_value)
+    Math.round(
+      (Number(investment.monthly_yield_percent || 0) / 100) *
+        investment.current_value,
+    ),
   );
 
   db.prepare(
-    "UPDATE investments SET current_value = current_value + ?, updated_at = ? WHERE id = ? AND device_id = ?"
+    "UPDATE investments SET current_value = current_value + ?, updated_at = ? WHERE id = ? AND device_id = ?",
   ).run(gain, now(), id, deviceId);
 
   applyProfileProgress(deviceId, { xpDelta: 4 });

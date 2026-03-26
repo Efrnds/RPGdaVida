@@ -27,7 +27,10 @@ export default function VidaPage() {
 
   const patchHp = async (delta) => {
     if (!profile) return;
-    const hpCurrent = Math.max(0, Math.min(profile.hp_total, profile.hp_current + delta));
+    const hpCurrent = Math.max(
+      0,
+      Math.min(profile.hp_total, profile.hp_current + delta),
+    );
 
     await fetch("/api/profile", {
       method: "PUT",
@@ -42,7 +45,13 @@ export default function VidaPage() {
   };
 
   const hpPercentage = profile
-    ? Math.max(0, Math.min(100, Math.round((profile.hp_current / profile.hp_total) * 100)))
+    ? Math.max(
+        0,
+        Math.min(
+          100,
+          Math.round((profile.hp_current / profile.hp_total) * 100),
+        ),
+      )
     : 0;
 
   return (
@@ -53,7 +62,6 @@ export default function VidaPage() {
       icon="🫀"
       maxWidth="max-w-3xl"
     >
-
       <section className="max-w-3xl p-4 mx-auto space-y-3 border rounded-md border-graySm bg-white">
         <p className="text-lg font-semibold">
           HP: {profile?.hp_current ?? 0} / {profile?.hp_total ?? 0}
@@ -82,7 +90,8 @@ export default function VidaPage() {
         </div>
 
         <p className="text-sm text-grayMd">
-          Dica: os hábitos ruins também drenam HP automaticamente no módulo de mau hábito.
+          Dica: os hábitos ruins também drenam HP automaticamente no módulo de
+          mau hábito.
         </p>
       </section>
     </ModuleScreen>

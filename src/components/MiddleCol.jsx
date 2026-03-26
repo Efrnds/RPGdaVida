@@ -42,10 +42,10 @@ export default function MiddleCol() {
       href: "/home/perfil-metas",
     },
     {
-        title: "Finanças - Investimentos",
-        imgPath: "/assets/images/Financas.svg",
-        href: "/home/financas-investimentos",
-    }
+      title: "Finanças - Investimentos",
+      imgPath: "/assets/images/Financas.svg",
+      href: "/home/financas-investimentos",
+    },
   ];
   return (
     <section className="flex-1 p-0 xl:w-[49%]">

@@ -16,7 +16,9 @@ export default function Skill({
       <div className="p-2 border rounded-md border-graySm bg-white">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-medium text-grayMd">{title}</p>
-          <p className="text-[11px] font-semibold tracking-tight text-grayMd">{xp} xp • {lvl.replace("Nível", "lvl")}</p>
+          <p className="text-[11px] font-semibold tracking-tight text-grayMd">
+            {xp} xp • {lvl.replace("Nível", "lvl")}
+          </p>
         </div>
         <div className="relative w-full h-1.5 mt-1.5 rounded-full bg-graySm">
           <div

@@ -51,7 +51,11 @@ export default function MdxPreview({ source }) {
 
   return (
     <article className="mdx-preview">
-      {Content ? <Content /> : <p className="text-sm text-grayMd">Carregando preview...</p>}
+      {Content ? (
+        <Content />
+      ) : (
+        <p className="text-sm text-grayMd">Carregando preview...</p>
+      )}
     </article>
   );
 }

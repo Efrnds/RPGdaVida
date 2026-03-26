@@ -132,7 +132,9 @@ export default function Login() {
       </p>
 
       {errorMessage ? (
-        <p className="p-2 text-sm text-red-700 bg-red-100 rounded-md">{errorMessage}</p>
+        <p className="p-2 text-sm text-red-700 bg-red-100 rounded-md">
+          {errorMessage}
+        </p>
       ) : null}
 
       {successMessage ? (

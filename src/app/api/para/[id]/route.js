@@ -17,12 +17,18 @@ export async function PUT(req, { params }) {
     const data = updateParaItem(getDeviceId(req), id, body);
 
     if (!data) {
-      return NextResponse.json({ error: "Item PARA não encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Item PARA não encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data });
   } catch {
-    return NextResponse.json({ error: "Falha ao atualizar item PARA." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao atualizar item PARA." },
+      { status: 500 },
+    );
   }
 }
 
@@ -36,11 +42,17 @@ export async function DELETE(req, { params }) {
     const ok = deleteParaItem(getDeviceId(req), id);
 
     if (!ok) {
-      return NextResponse.json({ error: "Item PARA não encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Item PARA não encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ error: "Falha ao remover item PARA." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Falha ao remover item PARA." },
+      { status: 500 },
+    );
   }
 }

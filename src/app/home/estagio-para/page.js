@@ -151,7 +151,6 @@ export default function EstagioParaPage() {
       description="Edite e organize notas .md com live preview no mesmo editor, no estilo Obsidian."
       icon="🗺️"
     >
-
       <section className="max-w-5xl mx-auto">
         <button
           onClick={() => setCreateModalOpen(true)}
@@ -163,7 +162,9 @@ export default function EstagioParaPage() {
 
       <section className="grid max-w-5xl grid-cols-1 gap-3 mx-auto md:grid-cols-12">
         <aside className="p-2 bg-white border rounded-md md:col-span-4 border-graySm">
-          <p className="px-1 mb-2 text-xs font-semibold text-grayMd">ARQUIVOS</p>
+          <p className="px-1 mb-2 text-xs font-semibold text-grayMd">
+            ARQUIVOS
+          </p>
           <div className="space-y-1">
             {items.map((item) => (
               <button
@@ -183,7 +184,9 @@ export default function EstagioParaPage() {
             ))}
 
             {!items.length ? (
-              <p className="px-2 py-3 text-sm text-grayMd">Nenhum arquivo .md criado ainda.</p>
+              <p className="px-2 py-3 text-sm text-grayMd">
+                Nenhum arquivo .md criado ainda.
+              </p>
             ) : null}
           </div>
         </aside>
@@ -196,12 +199,22 @@ export default function EstagioParaPage() {
                   className="p-2 border rounded-md md:col-span-2 border-graySm"
                   value={draft.title || ""}
                   placeholder="arquivo.md"
-                  onChange={(e) => setDraft((current) => ({ ...current, title: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((current) => ({
+                      ...current,
+                      title: e.target.value,
+                    }))
+                  }
                 />
                 <select
                   className="p-2 border rounded-md border-graySm"
                   value={draft.bucket || "projects"}
-                  onChange={(e) => setDraft((current) => ({ ...current, bucket: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((current) => ({
+                      ...current,
+                      bucket: e.target.value,
+                    }))
+                  }
                 >
                   <option value="projects">Projects</option>
                   <option value="areas">Areas</option>
@@ -212,12 +225,22 @@ export default function EstagioParaPage() {
                   className="p-2 border rounded-md md:col-span-2 border-graySm"
                   value={draft.next_action || ""}
                   placeholder="Próxima ação"
-                  onChange={(e) => setDraft((current) => ({ ...current, next_action: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((current) => ({
+                      ...current,
+                      next_action: e.target.value,
+                    }))
+                  }
                 />
                 <select
                   className="p-2 border rounded-md border-graySm"
                   value={draft.status || "idea"}
-                  onChange={(e) => setDraft((current) => ({ ...current, status: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((current) => ({
+                      ...current,
+                      status: e.target.value,
+                    }))
+                  }
                 >
                   <option value="idea">Ideia</option>
                   <option value="active">Ativo</option>
@@ -229,7 +252,9 @@ export default function EstagioParaPage() {
               <div className="overflow-hidden border rounded-md border-graySm">
                 <MDXEditor
                   markdown={draft.notes || ""}
-                  onChange={(markdown) => setDraft((current) => ({ ...current, notes: markdown }))}
+                  onChange={(markdown) =>
+                    setDraft((current) => ({ ...current, notes: markdown }))
+                  }
                   plugins={[
                     headingsPlugin(),
                     listsPlugin(),
@@ -268,7 +293,9 @@ export default function EstagioParaPage() {
               </div>
             </>
           ) : (
-            <p className="text-sm text-grayMd">Selecione um arquivo na lateral para editar.</p>
+            <p className="text-sm text-grayMd">
+              Selecione um arquivo na lateral para editar.
+            </p>
           )}
         </div>
       </section>
@@ -288,22 +315,53 @@ export default function EstagioParaPage() {
         onClose={() => setCreateModalOpen(false)}
       >
         <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          <input className="p-2 border rounded-md border-graySm" placeholder="arquivo.md" value={form.title} onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))} />
-          <select className="p-2 border rounded-md border-graySm" value={form.bucket} onChange={(e) => setForm((c) => ({ ...c, bucket: e.target.value }))}>
+          <input
+            className="p-2 border rounded-md border-graySm"
+            placeholder="arquivo.md"
+            value={form.title}
+            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
+          />
+          <select
+            className="p-2 border rounded-md border-graySm"
+            value={form.bucket}
+            onChange={(e) => setForm((c) => ({ ...c, bucket: e.target.value }))}
+          >
             <option value="projects">Projects</option>
             <option value="areas">Areas</option>
             <option value="resources">Resources</option>
             <option value="archive">Archive</option>
           </select>
-          <select className="p-2 border rounded-md border-graySm" value={form.status} onChange={(e) => setForm((c) => ({ ...c, status: e.target.value }))}>
+          <select
+            className="p-2 border rounded-md border-graySm"
+            value={form.status}
+            onChange={(e) => setForm((c) => ({ ...c, status: e.target.value }))}
+          >
             <option value="idea">Ideia</option>
             <option value="active">Ativo</option>
             <option value="waiting">Aguardando</option>
             <option value="done">Concluído</option>
           </select>
-          <input className="p-2 border rounded-md border-graySm" placeholder="Próxima ação" value={form.next_action} onChange={(e) => setForm((c) => ({ ...c, next_action: e.target.value }))} />
-          <textarea className="p-2 border rounded-md md:col-span-2 border-graySm" rows={2} placeholder="Conteúdo inicial em MDX (opcional)" value={form.notes} onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))} />
-          <button onClick={createItem} className="p-2 text-white rounded-md md:col-span-2 bg-primary">Criar arquivo</button>
+          <input
+            className="p-2 border rounded-md border-graySm"
+            placeholder="Próxima ação"
+            value={form.next_action}
+            onChange={(e) =>
+              setForm((c) => ({ ...c, next_action: e.target.value }))
+            }
+          />
+          <textarea
+            className="p-2 border rounded-md md:col-span-2 border-graySm"
+            rows={2}
+            placeholder="Conteúdo inicial em MDX (opcional)"
+            value={form.notes}
+            onChange={(e) => setForm((c) => ({ ...c, notes: e.target.value }))}
+          />
+          <button
+            onClick={createItem}
+            className="p-2 text-white rounded-md md:col-span-2 bg-primary"
+          >
+            Criar arquivo
+          </button>
         </div>
       </FormModal>
     </ModuleScreen>

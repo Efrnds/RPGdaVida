@@ -18,14 +18,17 @@ export async function PUT(req, { params }) {
     const task = updateTask(deviceId, id, body);
 
     if (!task) {
-      return NextResponse.json({ error: "Tarefa não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Tarefa não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ data: task });
   } catch {
     return NextResponse.json(
       { error: "Falha ao atualizar tarefa." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -41,14 +44,17 @@ export async function DELETE(req, { params }) {
     const ok = deleteTask(deviceId, id);
 
     if (!ok) {
-      return NextResponse.json({ error: "Tarefa não encontrada." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Tarefa não encontrada." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
       { error: "Falha ao remover tarefa." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

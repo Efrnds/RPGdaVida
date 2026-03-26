@@ -22,7 +22,7 @@ export async function GET(req) {
   } catch {
     return NextResponse.json(
       { error: "Falha ao listar mercado." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -40,8 +40,13 @@ export async function POST(req) {
       const result = redeemMarketItem(deviceId, body.itemId);
       if (!result.ok) {
         return NextResponse.json(
-          { error: result.reason === "INSUFFICIENT_COINS" ? "Moedas insuficientes." : "Item inválido." },
-          { status: 400 }
+          {
+            error:
+              result.reason === "INSUFFICIENT_COINS"
+                ? "Moedas insuficientes."
+                : "Item inválido.",
+          },
+          { status: 400 },
         );
       }
 
@@ -53,7 +58,7 @@ export async function POST(req) {
   } catch {
     return NextResponse.json(
       { error: "Falha ao processar mercado." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

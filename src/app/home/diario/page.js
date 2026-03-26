@@ -98,7 +98,6 @@ export default function DiarioPage() {
       icon="📝"
       maxWidth="max-w-4xl"
     >
-
       <section className="max-w-4xl mx-auto">
         <button
           onClick={() => setCreateModalOpen(true)}
@@ -110,13 +109,18 @@ export default function DiarioPage() {
 
       <section className="max-w-4xl mx-auto space-y-2">
         {entries.map((entry) => (
-          <article key={entry.id} className="p-3 border rounded-md border-graySm">
+          <article
+            key={entry.id}
+            className="p-3 border rounded-md border-graySm"
+          >
             <div className="flex items-center justify-between">
               {editingId === entry.id ? (
                 <input
                   className="flex-1 p-1 mr-2 border rounded-md border-graySm"
                   value={draft.title || ""}
-                  onChange={(e) => setDraft((c) => ({ ...c, title: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((c) => ({ ...c, title: e.target.value }))
+                  }
                 />
               ) : (
                 <p className="font-semibold">{entry.title || "Sem título"}</p>
@@ -124,13 +128,33 @@ export default function DiarioPage() {
               <div className="flex gap-2">
                 {editingId === entry.id ? (
                   <>
-                    <button className="px-2 py-1 text-xs text-white rounded-md bg-primary" onClick={() => saveInline(entry)}>Salvar</button>
-                    <button className="px-2 py-1 text-xs border rounded-md border-graySm" onClick={() => setEditingId(null)}>Cancelar</button>
+                    <button
+                      className="px-2 py-1 text-xs text-white rounded-md bg-primary"
+                      onClick={() => saveInline(entry)}
+                    >
+                      Salvar
+                    </button>
+                    <button
+                      className="px-2 py-1 text-xs border rounded-md border-graySm"
+                      onClick={() => setEditingId(null)}
+                    >
+                      Cancelar
+                    </button>
                   </>
                 ) : (
-                  <button className="px-2 py-1 text-xs border rounded-md border-graySm" onClick={() => startEditing(entry)}>Editar</button>
+                  <button
+                    className="px-2 py-1 text-xs border rounded-md border-graySm"
+                    onClick={() => startEditing(entry)}
+                  >
+                    Editar
+                  </button>
                 )}
-                <button className="px-2 py-1 text-xs text-white bg-red-500 rounded-md" onClick={() => setEntryToDelete(entry)}>Excluir</button>
+                <button
+                  className="px-2 py-1 text-xs text-white bg-red-500 rounded-md"
+                  onClick={() => setEntryToDelete(entry)}
+                >
+                  Excluir
+                </button>
               </div>
             </div>
             {editingId === entry.id ? (
@@ -139,25 +163,33 @@ export default function DiarioPage() {
                   className="w-full p-1 mt-2 border rounded-md border-graySm"
                   rows={3}
                   value={draft.content || ""}
-                  onChange={(e) => setDraft((c) => ({ ...c, content: e.target.value }))}
+                  onChange={(e) =>
+                    setDraft((c) => ({ ...c, content: e.target.value }))
+                  }
                 />
                 <div className="grid grid-cols-1 gap-2 mt-2 md:grid-cols-2">
                   <input
                     className="p-1 border rounded-md border-graySm"
                     value={draft.mood || ""}
-                    onChange={(e) => setDraft((c) => ({ ...c, mood: e.target.value }))}
+                    onChange={(e) =>
+                      setDraft((c) => ({ ...c, mood: e.target.value }))
+                    }
                   />
                   <input
                     className="p-1 border rounded-md border-graySm"
                     value={draft.tags || ""}
-                    onChange={(e) => setDraft((c) => ({ ...c, tags: e.target.value }))}
+                    onChange={(e) =>
+                      setDraft((c) => ({ ...c, tags: e.target.value }))
+                    }
                   />
                 </div>
               </>
             ) : (
               <>
                 <p className="mt-1 text-sm">{entry.content}</p>
-                <p className="mt-1 text-xs text-grayMd">{entry.mood} {entry.tags ? `• ${entry.tags}` : ""}</p>
+                <p className="mt-1 text-xs text-grayMd">
+                  {entry.mood} {entry.tags ? `• ${entry.tags}` : ""}
+                </p>
               </>
             )}
           </article>
@@ -179,18 +211,45 @@ export default function DiarioPage() {
         onClose={() => setCreateModalOpen(false)}
       >
         <div className="grid gap-2">
-          <input className="p-2 border rounded-md border-graySm" placeholder="Título (opcional)" value={form.title} onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))} />
-          <textarea className="p-2 border rounded-md border-graySm" rows={4} placeholder="Escreva sobre seu dia" value={form.content} onChange={(e) => setForm((c) => ({ ...c, content: e.target.value }))} />
+          <input
+            className="p-2 border rounded-md border-graySm"
+            placeholder="Título (opcional)"
+            value={form.title}
+            onChange={(e) => setForm((c) => ({ ...c, title: e.target.value }))}
+          />
+          <textarea
+            className="p-2 border rounded-md border-graySm"
+            rows={4}
+            placeholder="Escreva sobre seu dia"
+            value={form.content}
+            onChange={(e) =>
+              setForm((c) => ({ ...c, content: e.target.value }))
+            }
+          />
           <div className="grid grid-cols-2 gap-2">
-            <select className="p-2 border rounded-md border-graySm" value={form.mood} onChange={(e) => setForm((c) => ({ ...c, mood: e.target.value }))}>
+            <select
+              className="p-2 border rounded-md border-graySm"
+              value={form.mood}
+              onChange={(e) => setForm((c) => ({ ...c, mood: e.target.value }))}
+            >
               <option value="motivated">Motivado</option>
               <option value="neutral">Neutro</option>
               <option value="tired">Cansado</option>
               <option value="happy">Feliz</option>
             </select>
-            <input className="p-2 border rounded-md border-graySm" placeholder="Tags (ex: foco,saude)" value={form.tags} onChange={(e) => setForm((c) => ({ ...c, tags: e.target.value }))} />
+            <input
+              className="p-2 border rounded-md border-graySm"
+              placeholder="Tags (ex: foco,saude)"
+              value={form.tags}
+              onChange={(e) => setForm((c) => ({ ...c, tags: e.target.value }))}
+            />
           </div>
-          <button onClick={createEntry} className="p-2 text-white rounded-md bg-primary">Salvar entrada</button>
+          <button
+            onClick={createEntry}
+            className="p-2 text-white rounded-md bg-primary"
+          >
+            Salvar entrada
+          </button>
         </div>
       </FormModal>
     </ModuleScreen>

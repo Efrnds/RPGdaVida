@@ -108,8 +108,11 @@ export default function SkillsPage() {
       description="Crie habilidades, acumule XP e suba de nível ao longo da jornada."
       icon="🛡️"
     >
-
-      {message ? <p className="max-w-5xl p-2 mx-auto text-sm border rounded-md border-graySm">{message}</p> : null}
+      {message ? (
+        <p className="max-w-5xl p-2 mx-auto text-sm border rounded-md border-graySm">
+          {message}
+        </p>
+      ) : null}
 
       <section className="max-w-5xl mx-auto">
         <button
@@ -127,9 +130,17 @@ export default function SkillsPage() {
             title={skill.title}
             xp={`${skill.current_xp} / ${skill.target_xp}`}
             lvl={`Nível ${skill.level}`}
-            progressPercent={Math.min(100, Math.round((skill.current_xp / skill.target_xp) * 100))}
+            progressPercent={Math.min(
+              100,
+              Math.round((skill.current_xp / skill.target_xp) * 100),
+            )}
             onDelete={() => deleteSkill(skill.id)}
-            onLevelUp={() => updateSkill(skill.id, { ...skill, level: Number(skill.level) + 1 })}
+            onLevelUp={() =>
+              updateSkill(skill.id, {
+                ...skill,
+                level: Number(skill.level) + 1,
+              })
+            }
             onGainXp={() => gainSkillXp(skill.id, 5)}
             onGainBigXp={() => gainSkillXp(skill.id, 20)}
           />
@@ -146,7 +157,9 @@ export default function SkillsPage() {
             className="p-2 border rounded-md border-graySm"
             placeholder="Título da skill"
             value={skillForm.title}
-            onChange={(e) => setSkillForm((current) => ({ ...current, title: e.target.value }))}
+            onChange={(e) =>
+              setSkillForm((current) => ({ ...current, title: e.target.value }))
+            }
           />
           <div className="grid grid-cols-3 gap-2">
             <input
@@ -189,7 +202,10 @@ export default function SkillsPage() {
               }
             />
           </div>
-          <button onClick={createSkill} className="p-2 text-white rounded-md bg-primary">
+          <button
+            onClick={createSkill}
+            className="p-2 text-white rounded-md bg-primary"
+          >
             Criar skill
           </button>
         </div>

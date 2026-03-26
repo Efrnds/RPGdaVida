@@ -9,7 +9,9 @@ export default function FormModal({ open, title, children, onClose }) {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold text-grayMd">{title}</h2>
-            <p className="text-xs text-grayMd">Preencha os campos e confirme para salvar.</p>
+            <p className="text-xs text-grayMd">
+              Preencha os campos e confirme para salvar.
+            </p>
           </div>
           <button
             onClick={onClose}
