@@ -131,18 +131,21 @@ export default function Activities({ standalone = false, compact = false }) {
   );
 
   return (
-    <div className={`flex flex-col gap-2 ${compact ? "p-2" : ""}`}>
-      <div className="flex items-center justify-between">
-        <Title title="🔄 Atividades" />
+    <div className={`flex flex-col gap-0 ${compact ? "p-0" : ""}`}>
+      <div className="flex justify-between items-center mb-1">
+        <h2 className="text-[20px] font-bold text-grayMd flex items-center gap-2">
+          🔄 Atividades
+        </h2>
         {!standalone ? (
           <Link
             href="/home/atividades"
-            className="text-xs text-primary underline-offset-2 hover:underline"
+            className="text-xs text-primary hover:underline underline-offset-2 bg-transparent"
           >
             Ver todas
           </Link>
         ) : null}
       </div>
+      <div className="w-full border-b-2 border-graySm mb-2"></div>
 
       {!compact && message ? (
         <p className="p-1 text-xs text-green-700 bg-green-100 rounded-md">
@@ -151,13 +154,13 @@ export default function Activities({ standalone = false, compact = false }) {
       ) : null}
 
       {!compact ? (
-        <div className="flex gap-2 text-xs">
+        <div className="flex gap-2 text-xs mb-3">
           <button
             onClick={() => {
               setStatusFilter("ALL");
               setPage(1);
             }}
-            className="px-2 py-1 border rounded-md border-graySm"
+            className="px-2 py-1 border rounded-md border-graySm bg-white"
           >
             Todas
           </button>
@@ -166,7 +169,7 @@ export default function Activities({ standalone = false, compact = false }) {
               setStatusFilter("won");
               setPage(1);
             }}
-            className="px-2 py-1 border rounded-md border-graySm"
+            className="px-2 py-1 border rounded-md border-graySm bg-white"
           >
             Won
           </button>
@@ -175,7 +178,7 @@ export default function Activities({ standalone = false, compact = false }) {
               setStatusFilter("lost");
               setPage(1);
             }}
-            className="px-2 py-1 border rounded-md border-graySm"
+            className="px-2 py-1 border rounded-md border-graySm bg-white"
           >
             Lost
           </button>
@@ -184,14 +187,14 @@ export default function Activities({ standalone = false, compact = false }) {
               setStatusFilter("limit");
               setPage(1);
             }}
-            className="px-2 py-1 border rounded-md border-graySm"
+            className="px-2 py-1 border rounded-md border-graySm bg-white"
           >
             Limit
           </button>
         </div>
       ) : null}
 
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-0 py-1 mb-2">
         {paginatedActivities.map((activity) => (
           <Activity
             key={activity.id}
@@ -216,15 +219,17 @@ export default function Activities({ standalone = false, compact = false }) {
         ))}
 
         {compact && paginatedActivities.length === 0 ? (
-          <p className="text-xs text-grayMd">Nenhuma atividade registrada.</p>
+          <p className="text-xs text-grayMd py-2 text-center border-graySm border border-dashed rounded mt-2">
+            Nenhuma atividade registrada.
+          </p>
         ) : null}
       </div>
 
       {!compact ? (
-        <div className="flex items-center justify-between text-xs text-grayMd">
+        <div className="flex items-center justify-between mt-1 text-xs text-grayMd">
           <button
             onClick={() => setPage((current) => Math.max(1, current - 1))}
-            className="px-2 py-1 border rounded-md border-graySm"
+            className="px-2 py-1 border rounded-md border-graySm bg-white"
           >
             Anterior
           </button>
@@ -235,7 +240,7 @@ export default function Activities({ standalone = false, compact = false }) {
             onClick={() =>
               setPage((current) => Math.min(totalPages, current + 1))
             }
-            className="px-2 py-1 border rounded-md border-graySm"
+            className="px-2 py-1 border rounded-md border-graySm bg-white"
           >
             Próxima
           </button>
@@ -243,16 +248,18 @@ export default function Activities({ standalone = false, compact = false }) {
       ) : null}
 
       {!compact ? (
-        <button
-          onClick={() => setCreateModalOpen(true)}
-          className="p-1 text-sm border rounded-md border-graySm text-grayMd"
-        >
-          Nova Atividade +
-        </button>
+        <div className="mt-4 text-sm font-bold text-grayMd">
+          <button
+            onClick={() => setCreateModalOpen(true)}
+            className="hover:underline"
+          >
+            Nova Atividade +
+          </button>
+        </div>
       ) : (
         <button
           onClick={createQuickActivity}
-          className="w-full mt-1 text-sm font-bold border rounded-md text-graySm border-graySm hover:bg-white"
+          className="text-[13px] font-bold text-grayMd/80 hover:text-grayMd text-left mt-1 tracking-wide"
         >
           Nova Atividade +
         </button>

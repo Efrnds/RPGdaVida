@@ -7,62 +7,83 @@ export default function ModuleScreen({
   subtitle,
   description,
   icon,
-  maxWidth = "max-w-5xl",
+  maxWidth = "max-w-[1200px]",
   children,
 }) {
   return (
-    <main className="min-h-screen px-3 pt-3 pb-24 space-y-4 text-grayMd bg-zinc-100 md:px-4 md:pt-4 md:space-y-6 md:pb-6">
-      <header className={`${maxWidth} mx-auto pb-4 border-b-2 border-graySm`}>
-        <div className="flex items-center justify-between gap-2 md:gap-3">
-          <h1 className="text-[28px] font-bold md:text-5xl">{title}</h1>
-          <Link href="/home" className="text-sm underline text-grayMd">
-            Voltar
-          </Link>
+    <main
+      className={`min-h-screen px-4 pb-24 md:px-8 md:pb-12 text-grayMd bg-[#f8f9fa]`}
+    >
+      <header
+        className={`${maxWidth} mx-auto pt-6 pb-6 border-b-2 border-graySm/50`}
+      >
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <Link
+              href="/home"
+              className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-grayMd bg-white border border-graySm rounded hover:bg-zinc-50 transition-colors"
+            >
+              ← Voltar ao Início
+            </Link>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-black tracking-tight">
+              {title}
+            </h1>
+          </div>
         </div>
       </header>
 
-      <section className={`${maxWidth} mx-auto pb-6 border-b-2 border-graySm`}>
-        <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-center">
-          <article className="grid w-32 h-28 border rounded-sm border-graySm place-items-center bg-zinc-100 md:w-52 md:h-44">
-            <span className="text-5xl md:text-7xl" aria-hidden="true">
-              {icon}
-            </span>
+      <section
+        className={`${maxWidth} mx-auto pt-8 pb-10 border-b-2 border-graySm/50`}
+      >
+        <div className="flex flex-col gap-8 md:flex-row md:items-center">
+          <article className="grid shrink-0 w-32 h-32 md:w-48 md:h-48 border-2 rounded-2xl border-graySm/40 bg-white shadow-sm place-items-center text-[60px] md:text-[80px]">
+            {icon}
           </article>
 
-          <article className="pt-1 md:pt-3">
-            <h2 className="text-2xl font-bold text-black md:text-4xl">
+          <article className="max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-3">
               {subtitle}
             </h2>
-            <p className="text-sm">{description}</p>
-            <p className="flex items-center gap-1 mt-1 text-[13px] underline">
-              <FaInfoCircle /> Precisa de ajuda
+            <p className="text-base text-grayMd leading-relaxed mb-4">
+              {description}
             </p>
+            <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-grayMd bg-white border border-graySm rounded hover:bg-zinc-50 transition-colors">
+              <FaInfoCircle /> Precisa de ajuda
+            </button>
           </article>
         </div>
 
-        <div className="grid grid-cols-1 gap-2 mt-4 text-xs sm:grid-cols-3">
-          <div className="p-2 border rounded-md border-graySm bg-white/70">
-            <p className="font-semibold">➕ Criar</p>
-            <p className="text-grayMd">
-              Use os botões de novo item para registrar dados.
+        <div className="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-3">
+          <div className="p-4 bg-white border border-graySm/40 rounded-xl shadow-sm transition-shadow hover:shadow-md">
+            <p className="font-bold text-black text-[15px] mb-1 flex items-center gap-2">
+              <span>➕</span> Criar novo
+            </p>
+            <p className="text-sm text-grayMd/80">
+              Use os botões de novo item para registrar dados ao módulo.
             </p>
           </div>
-          <div className="p-2 border rounded-md border-graySm bg-white/70">
-            <p className="font-semibold">✏️ Editar</p>
-            <p className="text-grayMd">
-              Abra um card/item para ajustar os campos.
+          <div className="p-4 bg-white border border-graySm/40 rounded-xl shadow-sm transition-shadow hover:shadow-md">
+            <p className="font-bold text-black text-[15px] mb-1 flex items-center gap-2">
+              <span>✏️</span> Editar item
+            </p>
+            <p className="text-sm text-grayMd/80">
+              Abra um card/item salvo na lista para ajustar os campos.
             </p>
           </div>
-          <div className="p-2 border rounded-md border-graySm bg-white/70">
-            <p className="font-semibold">💾 Salvar</p>
-            <p className="text-grayMd">
-              Confirme as mudanças para não perder progresso.
+          <div className="p-4 bg-white border border-graySm/40 rounded-xl shadow-sm transition-shadow hover:shadow-md">
+            <p className="font-bold text-black text-[15px] mb-1 flex items-center gap-2">
+              <span>💾</span> Progresso seguro
+            </p>
+            <p className="text-sm text-grayMd/80">
+              Confirme sempre as mudanças no final para não perder os dados.
             </p>
           </div>
         </div>
       </section>
 
-      <section className={`${maxWidth} mx-auto space-y-3`}>{children}</section>
+      <section className={`${maxWidth} mx-auto pt-10 space-y-6 md:space-y-10`}>
+        {children}
+      </section>
     </main>
   );
 }
@@ -71,7 +92,7 @@ ModuleScreen.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   maxWidth: PropTypes.string,
   children: PropTypes.node.isRequired,
 };

@@ -191,11 +191,11 @@ export default function LeftCol() {
   };
 
   return (
-    <section className="flex flex-col w-full gap-4 xl:w-[26%]">
-      <div className="flex flex-col gap-3 p-3 bg-white border rounded-md shadow-sm border-graySm">
+    <section className="flex flex-col w-full gap-5 xl:w-[26%]">
+      <div className="flex flex-col p-4 bg-white border border-graySm rounded shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)]">
         {message ? (
           <p
-            className={`p-2 text-sm rounded-md ${
+            className={`p-2 text-sm rounded-md mb-3 ${
               messageType === "error"
                 ? "text-red-700 bg-red-100"
                 : "text-green-700 bg-green-100"
@@ -208,257 +208,131 @@ export default function LeftCol() {
         <img
           src="/assets/images/Profile-Icon.png"
           alt=""
-          className="object-cover w-full rounded-md h-28"
+          className="object-cover w-full rounded h-[140px] mb-4 bg-graySm/30"
         />
 
-        <div className="flex flex-wrap w-full gap-2 text-base">
-          <p>{profileSummary.username}</p>
-          <p>&bull;</p>
-          <p>{profileSummary.levelLabel}</p>
-          <p>&bull;</p>
-          <p>{profileSummary.coinsLabel}</p>
+        <div className="flex flex-wrap items-center gap-1.5 text-sm md:text-[15px] font-medium text-grayMd mb-4">
+          <span className="font-bold text-black">
+            {profileSummary.username}
+          </span>
+          <span className="text-grayMd/60">&bull;</span>
+          <span>{profileSummary.levelLabel}</span>
+          <span className="text-grayMd/60">&bull;</span>
+          <span>{profileSummary.coinsLabel}</span>
         </div>
 
-        <Heart vidaTotal={profile.hp_total} vidaAtual={profile.hp_current} />
-
-        <div>
-          <div className="flex flex-wrap justify-between gap-4">
-            <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left text-grayMd">
-                Objetivo Principal
-              </p>
-              <p className="text-sm font-bold text-grayMd">:</p>
-            </div>
-            <p className="text-sm">{profile.main_objective || "-"}</p>
-          </div>
-          <div className="flex flex-wrap justify-between gap-4">
-            <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left text-grayMd">
-                Objetivo Secundário
-              </p>
-              <p className="text-sm font-bold text-grayMd">:</p>
-            </div>
-            <p className="text-sm">{profile.secondary_objective || "-"}</p>
-          </div>
-          <div className="flex flex-wrap justify-between gap-4">
-            <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left text-grayMd">Forças</p>
-              <p className="text-sm font-bold text-grayMd">:</p>
-            </div>
-            <p className="text-sm">{profile.strengths || "-"}</p>
-          </div>
-          <div className="flex flex-wrap justify-between gap-4">
-            <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left text-grayMd">
-                Fraquezas
-              </p>
-              <p className="text-sm font-bold text-grayMd">:</p>
-            </div>
-            <p className="text-sm">{profile.weaknesses || "-"}</p>
-          </div>
+        <div className="mb-5">
+          <Heart vidaTotal={profile.hp_total} vidaAtual={profile.hp_current} />
         </div>
 
-        <div>
-          <div className="flex flex-wrap justify-between">
-            <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left ">Conclusão de metas</p>
-              <p className="text-sm font-bold ">:</p>
-            </div>
-            <div className="flex w-full gap-4">
-              <div className="relative w-full h-2 my-auto rounded-full bg-graySm">
-                <div
-                  className="absolute h-2 rounded-full bg-primary"
-                  style={{ width: `${profile.goals_completion}%` }}
-                ></div>
-              </div>
-              <p className="my-auto text-sm font-semibold">
-                {profile.goals_completion}%
-              </p>
-            </div>
+        <div className="grid grid-cols-[130px_auto_1fr] gap-x-2 gap-y-3 text-[13px] md:text-sm mb-6 items-center">
+          <span className="font-bold text-grayMd">Objetivo Principal</span>
+          <span className="font-bold text-grayMd">:</span>
+          <span className="truncate text-black">
+            {profile.main_objective || "-"}
+          </span>
+
+          <span className="font-bold text-grayMd">Objetivo Secundário</span>
+          <span className="font-bold text-grayMd">:</span>
+          <span className="truncate text-black">
+            {profile.secondary_objective || "-"}
+          </span>
+
+          <span className="font-bold text-grayMd">Forças</span>
+          <span className="font-bold text-grayMd">:</span>
+          <span className="truncate text-black">
+            {profile.strengths || "-"}
+          </span>
+
+          <span className="font-bold text-grayMd">Fraquezas</span>
+          <span className="font-bold text-grayMd">:</span>
+          <span className="truncate text-black">
+            {profile.weaknesses || "-"}
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-1.5 mb-5">
+          <div className="flex justify-between text-[13px] md:text-sm">
+            <span className="font-bold text-grayMd">Conclusão de metas :</span>
+            <span className="font-bold text-black">
+              {profile.goals_completion}%
+            </span>
+          </div>
+          <div className="relative w-full h-1.5 rounded-full bg-graySm/60 overflow-hidden">
+            <div
+              className="absolute h-full rounded-full bg-primary"
+              style={{ width: `${profile.goals_completion}%` }}
+            ></div>
           </div>
         </div>
 
-        <div>
-          <div className="flex flex-wrap justify-between">
-            <div className="flex flex-wrap justify-between w-1/2">
-              <p className="text-sm font-bold text-left ">Experiência</p>
-              <p className="text-sm font-bold ">:</p>
-            </div>
-            <div className="flex w-full gap-4">
-              <div className="relative flex-1 h-2 my-auto rounded-full bg-graySm">
-                <div
-                  className="absolute h-2 rounded-full bg-primary"
-                  style={{
-                    width: `${Math.min(
-                      100,
-                      Math.round(
-                        (profile.xp_current / profile.xp_target) * 100,
-                      ),
-                    )}%`,
-                  }}
-                ></div>
-              </div>
-              <p className="my-auto text-sm">
-                {profile.xp_current} / {profile.xp_target} xp
-              </p>
-            </div>
+        <div className="flex flex-col gap-1.5 mb-2">
+          <div className="flex justify-between text-[13px] md:text-sm">
+            <span className="font-bold text-grayMd">Experiência :</span>
+            <span className="font-bold text-black">
+              {profile.xp_current} / {profile.xp_target} xp
+            </span>
+          </div>
+          <div className="relative w-full h-1.5 rounded-full bg-graySm/60 overflow-hidden">
+            <div
+              className="absolute h-full rounded-full bg-primary"
+              style={{
+                width: `${Math.min(
+                  100,
+                  Math.round((profile.xp_current / profile.xp_target) * 100),
+                )}%`,
+              }}
+            ></div>
           </div>
         </div>
-
-        {!homeMode ? (
-          <>
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <input
-                className="p-1 border rounded-md border-graySm"
-                placeholder="Nome"
-                value={profile.username}
-                onChange={(e) => updateProfileField("username", e.target.value)}
-              />
-              <input
-                className="p-1 border rounded-md border-graySm"
-                type="number"
-                min="1"
-                placeholder="Nível"
-                value={profile.level}
-                onChange={(e) =>
-                  updateProfileField("level", Number(e.target.value) || 1)
-                }
-              />
-              <input
-                className="p-1 border rounded-md border-graySm"
-                type="number"
-                min="0"
-                placeholder="Moedas"
-                value={profile.coins}
-                onChange={(e) =>
-                  updateProfileField("coins", Number(e.target.value) || 0)
-                }
-              />
-              <input
-                className="p-1 border rounded-md border-graySm"
-                type="number"
-                min="0"
-                placeholder="HP Atual"
-                value={profile.hp_current}
-                onChange={(e) =>
-                  updateProfileField("hp_current", Number(e.target.value) || 0)
-                }
-              />
-            </div>
-
-            <button
-              onClick={saveProfile}
-              className="p-2 text-sm text-white rounded-md bg-primary hover:bg-primaryHover"
-            >
-              Salvar Perfil
-            </button>
-          </>
-        ) : null}
       </div>
 
-      <div className="flex flex-col gap-3 p-2">
-        <div>
-          <div className="flex items-center justify-between">
-            <h2 className="text-[32px] font-semibold leading-none text-grayMd">
-              ⚔️ Skills
-            </h2>
-            <Link
-              href="/home/skills"
-              className="px-2 py-1 text-xs border rounded-md border-graySm text-grayMd hover:bg-white"
-            >
-              Ver todas
-            </Link>
-          </div>
-          <hr className="mt-1 border-graySm" />
+      <div className="flex flex-col gap-0 w-full">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-[20px] font-bold text-grayMd flex items-center gap-2">
+            ⚔️ Skills
+          </h2>
         </div>
+        <div className="w-full border-b-2 border-graySm mb-3"></div>
 
-        {loading ? <p className="text-sm text-grayMd">Carregando...</p> : null}
-
-        {skills.map((skill) => (
-          <Skill
-            key={skill.id}
-            title={skill.title}
-            xp={`${skill.current_xp} / ${skill.target_xp}`}
-            lvl={`Nível ${skill.level}`}
-            progressPercent={Math.min(
-              100,
-              Math.round((skill.current_xp / skill.target_xp) * 100),
-            )}
-            compact={homeMode}
-            onDelete={() => setSkillToDelete(skill)}
-            onLevelUp={() =>
-              updateSkill(skill.id, {
-                ...skill,
-                level: Number(skill.level) + 1,
-              })
-            }
-            onGainXp={() => gainSkillXp(skill.id, 5)}
-            onGainBigXp={() => gainSkillXp(skill.id, 20)}
-          />
-        ))}
-
-        {!loading && skills.length === 0 ? (
-          <p className="text-sm text-grayMd">Nenhuma skill criada ainda.</p>
+        {loading ? (
+          <p className="text-sm text-grayMd mb-2">Carregando...</p>
         ) : null}
 
-        {!homeMode ? (
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            <input
-              className="p-1 border rounded-md border-graySm"
-              placeholder="Título da skill"
-              value={skillForm.title}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  title: e.target.value,
-                }))
+        <div className="flex flex-col gap-2.5 mb-3">
+          {skills.map((skill) => (
+            <Skill
+              key={skill.id}
+              title={skill.title}
+              xp={`${skill.current_xp} / ${skill.target_xp}`}
+              lvl={`Nível ${skill.level}`}
+              progressPercent={Math.min(
+                100,
+                Math.round((skill.current_xp / skill.target_xp) * 100),
+              )}
+              compact={homeMode}
+              onDelete={() => setSkillToDelete(skill)}
+              onLevelUp={() =>
+                updateSkill(skill.id, {
+                  ...skill,
+                  level: Number(skill.level) + 1,
+                })
               }
+              onGainXp={() => gainSkillXp(skill.id, 5)}
+              onGainBigXp={() => gainSkillXp(skill.id, 20)}
             />
-            <input
-              className="p-1 border rounded-md border-graySm"
-              type="number"
-              min="0"
-              placeholder="XP atual"
-              value={skillForm.current_xp}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  current_xp: Number(e.target.value) || 0,
-                }))
-              }
-            />
-            <input
-              className="p-1 border rounded-md border-graySm"
-              type="number"
-              min="1"
-              placeholder="XP alvo"
-              value={skillForm.target_xp}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  target_xp: Number(e.target.value) || 1,
-                }))
-              }
-            />
-            <input
-              className="p-1 border rounded-md border-graySm"
-              type="number"
-              min="1"
-              placeholder="Nível"
-              value={skillForm.level}
-              onChange={(e) =>
-                setSkillForm((current) => ({
-                  ...current,
-                  level: Number(e.target.value) || 1,
-                }))
-              }
-            />
-          </div>
-        ) : null}
+          ))}
+
+          {!loading && skills.length === 0 ? (
+            <p className="text-sm text-grayMd py-2 text-center border border-dashed rounded border-graySm">
+              Nenhuma skill criada
+            </p>
+          ) : null}
+        </div>
 
         <button
           onClick={homeMode ? createQuickSkill : createSkill}
-          className="py-1 text-sm border rounded-md text-grayMd border-graySm hover:bg-white"
+          className="w-full py-1.5 text-xs font-semibold uppercase text-grayMd border border-graySm rounded drop-shadow-sm bg-white hover:bg-gray-50 transition-colors"
         >
           Nova Skill +
         </button>

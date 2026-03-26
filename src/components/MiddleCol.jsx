@@ -42,23 +42,24 @@ export default function MiddleCol() {
       href: "/home/perfil-metas",
     },
     {
-      title: "Finanças - Investimentos",
+      title: "Finanças",
       imgPath: "/assets/images/Financas.svg",
       href: "/home/financas-investimentos",
     },
   ];
   return (
     <section className="flex-1 p-0 xl:w-[49%]">
-      <div className="flex justify-around w-full gap-0 px-1 sm:px-6">
-        <div className="flex-1 h-px my-auto border border-grayMd"></div>
-        <div className="mx-auto w-fit">
-          <h1 className="px-2 py-1.5 text-[22px] font-bold border-2 rounded-md md:px-3 md:py-2 md:text-[36px] border-grayMd text-grayMd tracking-tight">
+      <div className="relative flex items-center justify-center w-full mb-6">
+        <div className="absolute inset-0 flex items-center px-4">
+          <div className="w-full border-t-[3px] border-graySm"></div>
+        </div>
+        <div className="relative z-10 bg-white border border-graySm shadow-sm rounded">
+          <h1 className="px-6 py-2.5 text-xl font-bold md:text-[26px] text-grayMd tracking-tight">
             Bem vindo ao RPG da Vida
           </h1>
         </div>
-        <div className="flex-1 h-px my-auto border border-grayMd"></div>
       </div>
-      <div className="grid grid-cols-2 gap-2 py-3 md:gap-4 md:py-5 md:grid-cols-3 h-fit">
+      <div className="grid grid-cols-2 gap-4 md:gap-5 md:grid-cols-3 h-fit px-1">
         {optionsMap.map((option) => (
           <Option
             key={option.title}

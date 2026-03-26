@@ -10,16 +10,23 @@ export default function Task({
 }) {
   if (compact) {
     return (
-      <div className="flex items-center justify-between gap-2 text-sm">
-        <div className="flex items-center gap-1 overflow-hidden">
-          {today ? <p className="font-bold text-grayMd">🕛</p> : null}
-          <h1 className="truncate">{title}</h1>
+      <div className="flex items-start justify-between gap-2 py-1.5 text-[13px] md:text-sm border-b border-graySm/40 last:border-b-0 pb-2">
+        <div className="flex items-start gap-1.5 overflow-hidden flex-1 leading-snug">
+          {today ? (
+            <span className="text-grayMd/80 whitespace-nowrap">⏱️ {today}</span>
+          ) : null}
+          <h1 className="text-black">{title}</h1>
         </div>
-        <div className="flex gap-1 text-[10px] h-fit">
-          <p className="px-1 rounded-sm bg-graySm text-grayMd">Level {level}</p>
-          <p className="px-1 font-semibold border rounded-sm border-graySm text-grayMd">
-            {status}
+        <div className="flex items-center gap-1.5 h-fit shrink-0 mt-0.5">
+          <p className="px-1.5 py-0.5 rounded-[4px] bg-graySm/60 text-[9px] md:text-[10px] font-bold text-grayMd uppercase tracking-wide">
+            Level {level}
           </p>
+          <button
+            onClick={onToggleStatus}
+            className="px-1.5 py-0.5 border rounded-[4px] border-graySm text-[9px] md:text-[10px] font-bold text-grayMd uppercase tracking-wide bg-white hover:bg-gray-50 transition-colors"
+          >
+            {status}
+          </button>
         </div>
       </div>
     );

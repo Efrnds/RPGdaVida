@@ -7,11 +7,12 @@ import {
   FaCalendarAlt,
   FaChartBar,
   FaInfoCircle,
-  FaRedoAlt,
   FaSeedling,
+  FaTrash,
 } from "react-icons/fa";
 import { getDeviceId } from "../lib/deviceId";
 import { LuSwords } from "react-icons/lu";
+import FormModal from "./FormModal";
 
 const HEATMAP_CELLS = 35;
 
@@ -28,33 +29,37 @@ function statusByHabit(habit, isGood) {
     return doneToday
       ? {
           chip: "✅ Concluído hoje",
-          chipClass: "bg-green-600 text-white",
+          chipClass:
+            "bg-green-600/10 text-green-700 border border-green-600/20",
           action: "Concluído hoje",
-          actionClass: "bg-zinc-300 text-zinc-700",
+          actionClass: "bg-zinc-100 text-zinc-400 border border-zinc-200",
           disabled: true,
         }
       : {
           chip: "⏳ Pendente hoje",
-          chipClass: "bg-amber-500 text-white",
+          chipClass:
+            "bg-amber-500/10 text-amber-700 border border-amber-500/20",
           action: "Concluir hoje",
-          actionClass: "bg-primary text-white",
+          actionClass:
+            "bg-primary text-white shadow-sm hover:shadow hover:-translate-y-0.5 transition-all",
           disabled: false,
         };
   }
 
   return doneToday
     ? {
-        chip: "⚠ Recaída registrada hoje",
-        chipClass: "bg-red-600 text-white",
+        chip: "⚠ Recaída hoje",
+        chipClass: "bg-red-600/10 text-red-700 border border-red-600/20",
         action: "Recaída registrada",
-        actionClass: "bg-zinc-300 text-zinc-700",
+        actionClass: "bg-zinc-100 text-zinc-400 border border-zinc-200",
         disabled: true,
       }
     : {
-        chip: "✅ Sem recaída hoje",
-        chipClass: "bg-green-600 text-white",
+        chip: "✅ Sem recaída",
+        chipClass: "bg-green-600/10 text-green-700 border border-green-600/20",
         action: "Registrar recaída",
-        actionClass: "bg-red-600 text-white",
+        actionClass:
+          "bg-red-500 text-white shadow-sm hover:shadow hover:-translate-y-0.5 transition-all",
         disabled: false,
       };
 }
@@ -66,38 +71,59 @@ function getBars(seed) {
   return [a, b, c];
 }
 
-function HeatMapCard({ habit, isGood, onComplete }) {
-  const activeCells = Math.max(0, Math.min(HEATMAP_CELLS, habit?.completions_7d || 0));
+function HeatMapCard({ habit, isGood, onComplete, onDelete }) {
+  const activeCells = Math.max(
+    0,
+    Math.min(HEATMAP_CELLS, habit?.completions_7d || 0),
+  );
   const status = statusByHabit(habit, isGood);
   const cells = Array.from({ length: HEATMAP_CELLS });
 
   return (
-    <article className="p-2 border rounded-sm border-graySm bg-zinc-50">
-      <header className="flex items-start justify-between gap-1">
-        <div>
-          <p className="text-[12px] font-semibold leading-4">{habit.title}</p>
-          <p className="text-[10px] text-grayMd">{frequencyLabel(habit.frequency)}</p>
+    <article className="flex flex-col p-4 bg-white border rounded-xl border-graySm/60 shadow-sm transition-shadow hover:shadow-md relative">
+      <button
+        onClick={onDelete}
+        className="absolute top-3 right-3 text-graySm/60 hover:text-red-500 transition-colors"
+        title="Excluir"
+      >
+        <FaTrash size={12} />
+      </button>
+      <header className="flex items-start justify-between gap-2 mb-3 pr-6">
+        <div className="flex-1">
+          <p className="text-[14px] font-bold text-grayMd leading-tight mb-0.5 line-clamp-2">
+            {habit.title}
+          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-[11px] font-medium text-grayMd/70 uppercase tracking-wide">
+              {frequencyLabel(habit.frequency)}
+            </p>
+            <span className="w-1 h-1 rounded-full bg-graySm"></span>
+            <p className="text-[11px] font-medium text-grayMd/70">
+              Total:{" "}
+              <span className="text-black">{habit.completions_total || 0}</span>
+            </p>
+          </div>
         </div>
-        <p className="text-[10px] text-grayMd">Total: {habit.completions_total || 0}</p>
       </header>
 
-      <div className="mt-1.5 space-y-1">
-        <span className={`inline-block px-1 py-0.5 text-[9px] rounded-sm ${status.chipClass}`}>
+      <div className="mb-4">
+        <span
+          className={`inline-block px-2 py-0.5 text-[10px] font-semibold rounded-md ${status.chipClass}`}
+        >
           {status.chip}
         </span>
-        <p className="text-[10px] text-center text-grayMd">Setembro - 2024</p>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 mt-1.5">
+      <div className="grid grid-cols-7 gap-1.5 mb-4 mt-auto">
         {cells.map((_, idx) => (
           <span
             key={`${habit.id}-${idx}`}
-            className={`h-3 rounded-sm ${
+            className={`h-4 rounded-sm transition-colors ${
               idx < activeCells
                 ? isGood
-                  ? "bg-zinc-400"
-                  : "bg-zinc-500"
-                : "bg-zinc-200"
+                  ? "bg-primary"
+                  : "bg-red-400"
+                : "bg-zinc-100 border border-zinc-200/60"
             }`}
           />
         ))}
@@ -106,7 +132,7 @@ function HeatMapCard({ habit, isGood, onComplete }) {
       <button
         onClick={onComplete}
         disabled={status.disabled}
-        className={`w-full mt-2 px-2 py-1 text-[11px] rounded-sm ${status.actionClass} ${status.disabled ? "cursor-not-allowed" : "hover:opacity-90"}`}
+        className={`w-full py-2 text-xs font-bold rounded-lg ${status.actionClass} ${status.disabled ? "cursor-not-allowed" : ""}`}
       >
         {status.action}
       </button>
@@ -125,37 +151,48 @@ HeatMapCard.propTypes = {
   }).isRequired,
   isGood: PropTypes.bool.isRequired,
   onComplete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default function HabitModule({ type }) {
   const isGood = type === "good";
   const pageMeta = isGood
     ? {
-        title: "Crescimento - Bom hábito",
-        introTitle: "Seus Desenvolvimentos Pessoais!",
-        introSubtitle: "Confira todos os desenvolvimentos pessoais que você têm.",
+        title: "Crescimento",
+        introTitle: "Seus Desenvolvimentos Pessoais",
+        introSubtitle:
+          "Acompanhe sua evolução diária, construa bons hábitos e ganhe recompensas ao mantê-los.",
         heatTitle: "Heat Map de Desenvolvimento",
-        heatSubtitle: "Confira o seu heat map de desenvolvimento pessoal aqui.",
+        heatSubtitle:
+          "A consistência é chave: veja seu progresso nos últimos dias.",
         statsTitle: "Estatísticas de Desenvolvimento",
-        statsSubtitle: "Confira as suas estatísticas de desenvolvimento pessoal aqui.",
-        icon: <FaRedoAlt className="text-[90px] text-grayMd" />,
+        statsSubtitle:
+          "Visão a longo prazo: entenda como seus hábitos se mantêm ao longo dos meses.",
+        icon: <FaSeedling className="text-[80px] text-primary" />,
         actionLabel: "Concluir",
       }
     : {
-        title: "Batalha - Mau hábito",
-        introTitle: "Batalhe",
-        introSubtitle: "Batalhe os seus Maus Hábitos! Conquiste eles!",
+        title: "Batalhas",
+        introTitle: "Enfrente seus Maus Hábitos",
+        introSubtitle:
+          "Registre suas recaídas com honestidade. Cada dia sem recair é uma vitória.",
         heatTitle: "Heat Map de Derrotas",
-        heatSubtitle: "Confira o seu heat map de batalhas aqui.",
+        heatSubtitle: "Identifique padrões de recaídas ao longo das semanas.",
         statsTitle: "Estatísticas de Batalha",
-        statsSubtitle: "Confira as suas estatísticas de batalha pessoal aqui.",
-        icon: <LuSwords className="text-[90px] text-grayMd" />,
-        actionLabel: "Registrar",
+        statsSubtitle:
+          "Veja se você está conseguindo diminuir suas recaídas com o tempo.",
+        icon: <LuSwords className="text-[80px] text-red-500" />,
+        actionLabel: "Registrar recaída",
       };
 
   const [deviceId, setDeviceId] = useState("anonymous-device");
   const [habits, setHabits] = useState([]);
   const [message, setMessage] = useState("");
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [habitToDelete, setHabitToDelete] = useState(null);
+  const [newHabitTitle, setNewHabitTitle] = useState("");
+
   const topHabits = useMemo(() => habits.slice(0, 4), [habits]);
 
   const showMessage = (text) => {
@@ -165,10 +202,13 @@ export default function HabitModule({ type }) {
 
   const fetchData = useCallback(
     async (id) => {
-      const habitsRes = await fetch(`/api/habits?type=${isGood ? "good" : "bad"}`, {
-        headers: { "x-device-id": id },
-        cache: "no-store",
-      });
+      const habitsRes = await fetch(
+        `/api/habits?type=${isGood ? "good" : "bad"}`,
+        {
+          headers: { "x-device-id": id },
+          cache: "no-store",
+        },
+      );
 
       if (!habitsRes.ok) {
         showMessage("Falha ao atualizar dados.");
@@ -188,8 +228,10 @@ export default function HabitModule({ type }) {
   }, [fetchData]);
 
   const createHabit = async () => {
-    const title = window.prompt("Nome do novo desenvolvimento pessoal:");
-    if (!title?.trim()) return;
+    if (!newHabitTitle?.trim()) {
+      showMessage("Nome do hábito é obrigatório.");
+      return;
+    }
 
     await fetch("/api/habits", {
       method: "POST",
@@ -198,7 +240,7 @@ export default function HabitModule({ type }) {
         "x-device-id": deviceId,
       },
       body: JSON.stringify({
-        title: title.trim(),
+        title: newHabitTitle.trim(),
         type,
         frequency: "daily",
         reward_coins: isGood ? 5 : 0,
@@ -206,6 +248,8 @@ export default function HabitModule({ type }) {
       }),
     });
 
+    setNewHabitTitle("");
+    setCreateModalOpen(false);
     await fetchData(deviceId);
     showMessage("Novo hábito criado.");
   };
@@ -217,184 +261,326 @@ export default function HabitModule({ type }) {
     });
 
     await fetchData(deviceId);
-    showMessage(isGood ? "Moedas adicionadas." : "HP reduzido.");
+    showMessage(
+      isGood ? "Moedas e XP adicionados!" : "HP reduzido pela recaída.",
+    );
+  };
+
+  const confirmDelete = async () => {
+    if (!habitToDelete) return;
+
+    await fetch(`/api/habits/${habitToDelete.id}`, {
+      method: "DELETE",
+      headers: { "x-device-id": deviceId },
+    });
+
+    setDeleteModalOpen(false);
+    setHabitToDelete(null);
+    await fetchData(deviceId);
+    showMessage("Hábito deletado com sucesso.");
+  };
+
+  const openDeleteModal = (habit) => {
+    setHabitToDelete(habit);
+    setDeleteModalOpen(true);
   };
 
   return (
-    <main className="max-w-305 p-4 mx-auto space-y-6 text-grayMd">
-      <header className="pb-4 border-b-2 border-graySm">
-        <h1 className="flex items-center gap-2 text-5xl font-bold">
-          {isGood ? <FaSeedling /> : <LuSwords />}
-          {pageMeta.title}
-        </h1>
+    <main className="max-w-[1200px] p-4 md:p-8 mx-auto space-y-12 text-grayMd bg-[#f8f9fa] min-h-screen">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b-2 border-graySm/50">
+        <div>
+          <Link
+            href="/home"
+            className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-xs font-semibold uppercase tracking-wider text-grayMd bg-white border border-graySm rounded hover:bg-zinc-50 transition-colors"
+          >
+            ← Voltar ao Início
+          </Link>
+          <h1 className="flex items-center gap-3 text-4xl md:text-5xl font-extrabold text-black tracking-tight">
+            {isGood ? (
+              <FaSeedling className="text-primary" />
+            ) : (
+              <LuSwords className="text-red-500" />
+            )}
+            {pageMeta.title}
+          </h1>
+        </div>
       </header>
 
-      {message ? (
-        <p className="p-2 text-sm text-green-700 bg-green-100 rounded-md">
-          {message}
-        </p>
-      ) : null}
+      {message && (
+        <div className="fixed top-4 right-4 z-50 animate-fade-in-down">
+          <p className="px-4 py-3 text-sm font-medium text-green-800 bg-green-100 border border-green-200 rounded-lg shadow-lg">
+            {message}
+          </p>
+        </div>
+      )}
 
-      <section className="pb-6 border-b-2 border-graySm">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-center">
-          <article className="grid w-52 h-44 border rounded-sm border-graySm place-items-center bg-zinc-100">
+      <section className="pb-10 border-b-2 border-graySm/50">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center">
+          <article className="grid shrink-0 w-40 h-40 md:w-56 md:h-56 border-2 rounded-2xl border-graySm/40 bg-white shadow-sm place-items-center">
             {pageMeta.icon}
           </article>
 
-          <article className="pt-3">
-            <h2 className="text-4xl font-bold text-black">{pageMeta.introTitle}</h2>
-            <p className="text-sm">{pageMeta.introSubtitle}</p>
-            <p className="flex items-center gap-1 mt-1 text-[13px] underline">
-              <FaInfoCircle /> Precisa de ajuda
+          <article className="max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-3">
+              {pageMeta.introTitle}
+            </h2>
+            <p className="text-base text-grayMd leading-relaxed mb-4">
+              {pageMeta.introSubtitle}
             </p>
+            <button className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-grayMd bg-white border border-graySm rounded hover:bg-zinc-50 transition-colors">
+              <FaInfoCircle /> Como funciona
+            </button>
           </article>
         </div>
 
-        <div className="grid gap-4 mt-6 md:grid-cols-[1fr_auto]">
-          <div className="space-y-1.5">
-            {topHabits.map((habit) => (
-              <p key={habit.id} className="text-[28px] leading-8">{isGood ? "🏵" : "🎞"} {habit.title}</p>
-            ))}
-            {topHabits.length === 0 ? (
-              <p className="text-base text-grayMd">Nenhum hábito criado ainda.</p>
-            ) : null}
+        <div className="mt-10 bg-white border border-graySm/40 rounded-2xl shadow-sm p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-black">
+              Principais {isGood ? "Hábitos" : "Desafios"}
+            </h3>
             <button
-              onClick={createHabit}
-              className="text-[28px] font-medium text-graySm transition-colors hover:text-grayMd"
+              onClick={() => setCreateModalOpen(true)}
+              className="text-sm font-bold text-primary hover:text-primaryHover transition-colors"
             >
-              + Novo Desenvolvimento Pessoal
+              + Novo
             </button>
           </div>
 
-          <div className="space-y-1.5 md:pt-1.5">
+          <div className="grid gap-4 md:grid-cols-2">
             {topHabits.map((habit) => {
               const status = statusByHabit(habit, isGood);
               return (
-                <div key={`${habit.id}-top-status`} className="flex items-center justify-end gap-1.5">
-                  <span className={`px-2 py-1 text-[10px] rounded-sm ${status.chipClass}`}>
-                    {status.chip}
-                  </span>
-                  <button
-                    onClick={() => completeHabit(habit.id)}
-                    disabled={status.disabled}
-                    className={`px-2 py-1 text-[10px] rounded-sm ${status.actionClass} ${status.disabled ? "cursor-not-allowed" : "hover:opacity-90"}`}
-                  >
-                    {status.action}
-                  </button>
+                <div
+                  key={`${habit.id}-top-status`}
+                  className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 border border-graySm/50 rounded-xl hover:border-graySm transition-colors"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl mt-0.5">
+                      {isGood ? "🏵" : "🎞"}
+                    </span>
+                    <div>
+                      <p className="font-bold text-black text-[15px]">
+                        {habit.title}
+                      </p>
+                      <span
+                        className={`inline-block mt-1 px-2 py-0.5 text-[10px] font-semibold rounded-md ${status.chipClass}`}
+                      >
+                        {status.chip}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 shrink-0">
+                    <button
+                      onClick={() => openDeleteModal(habit)}
+                      className="p-2 text-graySm hover:text-red-500 rounded bg-white border border-graySm/40 shadow-sm transition-colors"
+                      title="Excluir"
+                    >
+                      <FaTrash size={12} />
+                    </button>
+                    <button
+                      onClick={() => completeHabit(habit.id)}
+                      disabled={status.disabled}
+                      className={`px-4 py-2 text-xs font-bold rounded-lg ${status.actionClass} ${status.disabled ? "cursor-not-allowed" : ""}`}
+                    >
+                      {status.action}
+                    </button>
+                  </div>
                 </div>
               );
             })}
+            {topHabits.length === 0 ? (
+              <div className="col-span-full py-8 text-center border-2 border-dashed border-graySm rounded-xl">
+                <p className="text-grayMd font-medium mb-2">
+                  Nenhum hábito cadastrado
+                </p>
+                <button
+                  onClick={() => setCreateModalOpen(true)}
+                  className="text-sm font-bold text-primary hover:underline"
+                >
+                  Criar primeiro hábito
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
 
-      <section className="pb-6 border-b-2 border-graySm">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-center">
-          <article className="grid w-52 h-44 border rounded-sm border-graySm place-items-center bg-zinc-100">
-            <FaCalendarAlt className="text-[90px]" />
+      <section className="pb-10 border-b-2 border-graySm/50">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center mb-10">
+          <article className="grid shrink-0 w-32 h-32 md:w-48 md:h-48 border-2 rounded-2xl border-graySm/40 bg-white shadow-sm place-items-center">
+            <FaCalendarAlt
+              className={`text-[60px] md:text-[80px] ${isGood ? "text-primary/80" : "text-grayMd"}`}
+            />
           </article>
 
-          <article className="pt-3">
-            <h2 className="text-4xl font-bold text-black">{pageMeta.heatTitle}</h2>
-            <p className="text-sm">{pageMeta.heatSubtitle}</p>
-            <p className="flex items-center gap-1 mt-1 text-[13px] underline">
-              <FaInfoCircle /> Precisa de ajuda
+          <article className="max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-3">
+              {pageMeta.heatTitle}
+            </h2>
+            <p className="text-base text-grayMd leading-relaxed">
+              {pageMeta.heatSubtitle}
             </p>
           </article>
         </div>
 
-        <div className="grid gap-3 mt-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {habits.map((habit) => (
             <HeatMapCard
               key={habit.id}
               habit={habit}
               isGood={isGood}
               onComplete={() => completeHabit(habit.id)}
+              onDelete={() => openDeleteModal(habit)}
             />
           ))}
 
-          {habits.length === 0 ? (
-            <p className="text-sm text-grayMd sm:col-span-2 lg:col-span-4">Crie seu primeiro hábito para começar o heat map.</p>
-          ) : null}
-
-          <button
-            onClick={createHabit}
-            className="grid p-3 text-2xl border rounded-sm border-graySm bg-zinc-50 place-items-center hover:bg-zinc-100"
-          >
-            + Novo Desenvolvimento Pessoal
-          </button>
+          {habits.length > 0 && (
+            <button
+              onClick={() => setCreateModalOpen(true)}
+              className="flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl border-graySm/80 text-grayMd hover:bg-white hover:text-primary hover:border-primary/50 transition-all group min-h-[220px]"
+            >
+              <span className="text-4xl mb-2 group-hover:scale-110 transition-transform">
+                +
+              </span>
+              <span className="font-bold">Novo Hábito</span>
+            </button>
+          )}
         </div>
 
-        <p className="mt-3 text-xs text-grayMd">
+        <p className="mt-6 text-sm font-medium text-grayMd/80 bg-white p-4 border border-graySm/50 rounded-xl flex items-center gap-3">
+          <FaInfoCircle className="text-lg text-primary" />
           {isGood
-            ? "Dica: clique em 'Concluir hoje' no hábito para registrar o progresso diário."
-            : "Dica: clique em 'Registrar recaída' apenas quando o mau hábito acontecer hoje."}
+            ? "Dica: clique em 'Concluir hoje' nos cards acima para registrar seu progresso diário."
+            : "Dica: clique em 'Registrar recaída' apenas quando o mau hábito acontecer no dia de hoje."}
         </p>
       </section>
 
-      <section>
-        <div className="pb-6 border-b-2 border-graySm">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-center">
-            <article className="grid w-52 h-44 border rounded-sm border-graySm place-items-center bg-zinc-100">
-              <FaChartBar className="text-[90px]" />
-            </article>
+      <section className="pb-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-center mb-10">
+          <article className="grid shrink-0 w-32 h-32 md:w-48 md:h-48 border-2 rounded-2xl border-graySm/40 bg-white shadow-sm place-items-center">
+            <FaChartBar
+              className={`text-[60px] md:text-[80px] ${isGood ? "text-primary/80" : "text-grayMd"}`}
+            />
+          </article>
 
-            <article className="pt-3">
-              <h2 className="text-4xl font-bold text-black">{pageMeta.statsTitle}</h2>
-              <p className="text-sm">{pageMeta.statsSubtitle}</p>
-              <p className="flex items-center gap-1 mt-1 text-[13px] underline">
-                <FaInfoCircle /> Precisa de ajuda
-              </p>
-            </article>
-          </div>
+          <article className="max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-black mb-3">
+              {pageMeta.statsTitle}
+            </h2>
+            <p className="text-base text-grayMd leading-relaxed">
+              {pageMeta.statsSubtitle}
+            </p>
+          </article>
         </div>
 
-        <div className="mt-6 space-y-4">
+        <div className="grid gap-6 lg:grid-cols-2">
           {habits.map((habit) => {
-            const bars = getBars(Number(habit.completions_total || 1) + Number(habit.completions_7d || 0));
+            const bars = getBars(
+              Number(habit.completions_total || 1) +
+                Number(habit.completions_7d || 0),
+            );
 
             return (
-              <article key={`${habit.id}-stats`} className="p-3 border rounded-sm border-graySm bg-zinc-50">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-2xl font-semibold">{habit.title}</p>
-                  <p className="text-[11px]">Ordenar pelos últimos: 3M 6M 9M</p>
+              <article
+                key={`${habit.id}-stats`}
+                className="p-6 bg-white border border-graySm/60 rounded-2xl shadow-sm"
+              >
+                <div className="flex items-start justify-between mb-6">
+                  <div>
+                    <p className="text-[18px] font-bold text-black leading-tight mb-1">
+                      {habit.title}
+                    </p>
+                    <p className="text-[12px] font-medium text-grayMd">
+                      Gráfico de frequência mensal
+                    </p>
+                  </div>
+                  <div className="px-3 py-1 bg-zinc-100 rounded border border-zinc-200 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
+                    Últimos 3 Meses
+                  </div>
                 </div>
 
-                <p className="mb-3 text-[11px]">Setembro - 2024</p>
-
-                <div className="relative h-56 border-l border-b border-black/70 ml-3 mr-8 mb-2">
-                  <div className="absolute bottom-0 left-[14%] w-8 bg-zinc-300" style={{ height: `${bars[0] * 6}px` }} />
-                  <div className="absolute bottom-0 left-[45%] w-8 bg-zinc-300" style={{ height: `${bars[1] * 6}px` }} />
-                  <div className="absolute bottom-0 left-[76%] w-8 bg-zinc-300" style={{ height: `${bars[2] * 6}px` }} />
-                  <p className="absolute -left-5 top-0 text-[10px]">Dias</p>
-                  <p className="absolute -right-11 bottom-0 text-[10px]">Meses</p>
+                <div className="relative h-48 border-l-2 border-b-2 border-graySm/50 ml-6 mr-4 mb-3 mt-4">
+                  <div
+                    className={`absolute bottom-0 left-[15%] w-10 rounded-t-sm transition-all duration-500 hover:opacity-80 ${isGood ? "bg-primary/60" : "bg-red-400/60"}`}
+                    style={{ height: `${bars[0] * 4}px` }}
+                  />
+                  <div
+                    className={`absolute bottom-0 left-[45%] w-10 rounded-t-sm transition-all duration-500 hover:opacity-80 ${isGood ? "bg-primary/80" : "bg-red-400/80"}`}
+                    style={{ height: `${bars[1] * 4.5}px` }}
+                  />
+                  <div
+                    className={`absolute bottom-0 left-[75%] w-10 rounded-t-sm transition-all duration-500 hover:opacity-80 ${isGood ? "bg-primary" : "bg-red-500"}`}
+                    style={{ height: `${bars[2] * 5}px` }}
+                  />
+                  <p className="absolute -left-6 top-0 text-[10px] font-bold text-grayMd -rotate-90 origin-left mt-10">
+                    Frequência
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-3 pl-4 text-[10px] text-center">
-                  <p>Jan</p>
-                  <p>Fev</p>
-                  <p>Mar</p>
+                <div className="relative grid grid-cols-3 pl-6 text-[11px] font-bold text-center text-grayMd">
+                  <p>Mês 1</p>
+                  <p>Mês 2</p>
+                  <p>Mês 3</p>
+                  <p className="absolute right-0 top-1 text-[10px] text-grayMd/50">
+                    Meses →
+                  </p>
                 </div>
               </article>
             );
           })}
-
-          {habits.length === 0 ? (
-            <p className="text-sm text-grayMd">Sem estatísticas ainda. Adicione hábitos para gerar os gráficos.</p>
-          ) : null}
-
-          <button
-            onClick={createHabit}
-            className="w-full h-28 text-2xl border rounded-sm border-graySm bg-zinc-50 hover:bg-zinc-100"
-          >
-            + Novo Desenvolvimento Pessoal
-          </button>
         </div>
       </section>
 
-      <div className="text-right">
-        <Link className="text-sm underline" href="/home">Voltar</Link>
-      </div>
+      <FormModal
+        open={createModalOpen}
+        title={isGood ? "Novo Bom Hábito" : "Novo Mau Hábito"}
+        onClose={() => setCreateModalOpen(false)}
+      >
+        <div className="grid gap-3 text-sm">
+          <input
+            className="p-3 bg-zinc-50 border rounded-lg border-graySm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow"
+            placeholder={`Nome do ${isGood ? "desenvolvimento pessoal" : "mau hábito"}...`}
+            value={newHabitTitle}
+            onChange={(e) => setNewHabitTitle(e.target.value)}
+            autoFocus
+          />
+          <button
+            onClick={createHabit}
+            className={`p-3 font-bold text-white rounded-lg transition-colors ${isGood ? "bg-primary hover:bg-primaryHover" : "bg-red-500 hover:bg-red-600"}`}
+          >
+            {isGood ? "Criar Hábito" : "Criar Desafio"}
+          </button>
+        </div>
+      </FormModal>
+
+      <FormModal
+        open={deleteModalOpen}
+        title={"Excluir Item"}
+        onClose={() => setDeleteModalOpen(false)}
+      >
+        <div className="text-sm space-y-4">
+          <p className="text-grayMd text-base">
+            Tem certeza que deseja excluir o item{" "}
+            <strong className="text-black">{habitToDelete?.title}</strong>? Todo
+            o histórico de progresso será perdido e esta ação não poderá ser
+            desfeita.
+          </p>
+          <div className="flex gap-3 justify-end mt-6">
+            <button
+              onClick={() => setDeleteModalOpen(false)}
+              className="px-5 py-2.5 bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 rounded-lg text-black font-semibold transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={confirmDelete}
+              className="px-5 py-2.5 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 shadow-sm transition-colors"
+            >
+              Sim, Excluir
+            </button>
+          </div>
+        </div>
+      </FormModal>
     </main>
   );
 }

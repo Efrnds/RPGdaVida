@@ -13,16 +13,18 @@ export default function Skill({
 }) {
   if (compact) {
     return (
-      <div className="p-2 border rounded-md border-graySm bg-white">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-sm font-medium text-grayMd">{title}</p>
-          <p className="text-[11px] font-semibold tracking-tight text-grayMd">
-            {xp} xp • {lvl.replace("Nível", "lvl")}
+      <div className="flex flex-col gap-1 p-2 border border-graySm rounded bg-white">
+        <div className="flex items-center justify-between">
+          <p className="text-[13px] md:text-sm text-grayMd font-medium">
+            {title}
+          </p>
+          <p className="text-[10px] md:text-[11px] font-bold text-grayMd">
+            {xp} xp &bull; {lvl.replace("Nível", "lvl")}
           </p>
         </div>
-        <div className="relative w-full h-1.5 mt-1.5 rounded-full bg-graySm">
+        <div className="relative w-full h-1.5 rounded-full bg-graySm/60 overflow-hidden">
           <div
-            className="absolute h-1.5 rounded-full bg-primary"
+            className="absolute h-full rounded-full bg-primary"
             style={{ width: `${progressPercent}%` }}
           ></div>
         </div>

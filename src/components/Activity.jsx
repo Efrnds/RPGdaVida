@@ -12,17 +12,26 @@ export default function Activity({
   if (compact) {
     const topLabel = title || "Atividade";
     const icon =
-      lostOrWon === "won" ? "✅" : lostOrWon === "lost" ? "❌" : "☑️";
+      lostOrWon === "won" ? "➡️" : lostOrWon === "lost" ? "➡️" : "❎";
     const valuesClass = lostOrWon === "won" ? "text-primary" : "text-red-500";
 
     return (
-      <div className="p-2 border rounded-md border-graySm bg-white">
-        <p className="text-xs font-medium text-grayMd">
-          {icon} {topLabel}
+      <div className="flex flex-col gap-1.5 p-3 mb-2 border border-graySm/60 rounded-md bg-white shadow-sm transition-shadow hover:shadow">
+        <div className="flex items-center gap-1.5 opacity-80">
+          <span className="text-[12px]">{icon}</span>
+          <p className="text-[11px] font-medium text-grayMd/90 truncate">
+            {topLabel}
+          </p>
+        </div>
+        <p className="text-[12px] md:text-[13px] leading-snug text-black">
+          {desc}
         </p>
-        <p className="text-xs leading-4 text-grayMd">{desc}</p>
         {values ? (
-          <p className={`text-sm font-semibold ${valuesClass}`}>{values}</p>
+          <p
+            className={`text-[11px] md:text-[12px] font-bold ${valuesClass} mt-0.5`}
+          >
+            {values}
+          </p>
         ) : null}
       </div>
     );

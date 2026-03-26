@@ -148,7 +148,37 @@ export default function ConfiguracoesPage() {
       ) : null}
 
       <section className="grid max-w-3xl gap-3 p-3 mx-auto border rounded-md border-graySm bg-white">
-        <label className="grid gap-1 text-sm">
+        <label className="grid gap-1 text-sm bg-blue-50/50 p-3 rounded-md border border-blue-100">
+          <span className="font-semibold text-blue-900 flex items-center gap-2">
+            🔑 Sua Chave do RPG (Device/API Key)
+          </span>
+          <span className="text-xs text-blue-700 mb-1">
+            Use esta chave como o header <b>x-device-id</b> para integrar
+            atalhos do iPhone ou outras automações.
+          </span>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              readOnly
+              className="flex-1 p-2 text-xs font-mono bg-white border rounded-md border-blue-200 text-grayMd select-all"
+              value={deviceId}
+            />
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(deviceId);
+                setMessage("Chave copiada para a área de transferência!");
+                setTimeout(() => setMessage(""), 2200);
+              }}
+              className="px-3 py-2 text-xs font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Copiar
+            </button>
+          </div>
+        </label>
+
+        <hr className="my-2 border-graySm/50" />
+
+        <label className="grid gap-1 text-sm pt-2">
           Tema
           <select
             className="p-2 border rounded-md border-graySm"
