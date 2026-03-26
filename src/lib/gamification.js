@@ -1,49 +1,43 @@
 /**
  * Motor de Gamificação do RPG da Vida
- * Versão Robusta: Focada apenas em XP, Vida (HP) e Moedas.
+ * Focado em progresso de metas existentes.
  */
 
-export const DIFFICULTY_LEVELS = {
-  1: { xp: 10, gold: 5 },
-  2: { xp: 25, gold: 12 },
-  3: { xp: 60, gold: 30 },
-  4: { xp: 150, gold: 70 },
-  5: { xp: 400, gold: 200 },
-};
+/**
+ * Mapeia métricas de saúde para categorias de metas.
+ */
+export function mapHealthToGoalProgress({ steps = 0, sleepHours = 0, heartRate = 0 }) {
+  const progressUpdates = [];
 
-export function processHealthMetrics({ steps = 0, sleepHours = 0, heartRate = 0 }) {
-  const rewards = {
-    xp: 0,
-    gold: 0,
-    hp: 0,
-    description: []
-  };
-
-  // Passos: Cada 1000 passos = 2 Moedas e 3 XP
+  // Passos -> Geralmente categoria 'saúde' ou 'fitness'
   if (steps > 0) {
-    const sets = Math.floor(steps / 1000);
-    if (sets > 0) {
-      rewards.gold += sets * 2;
-      rewards.xp += sets * 3;
-      rewards.description.push(`${steps} passos`);
-    }
+    progressUpdates.push({
+      category: 'saude',
+      type: 'steps',
+      value: steps,
+      description: `${steps} passos`
+    });
   }
 
-  // Sono: Recupera HP e um pouco de XP
-  if (sleepHours >= 7) {
-    rewards.hp += 20;
-    rewards.xp += 10;
-    rewards.description.push("Sono revigorante");
-  } else if (sleepHours > 0 && sleepHours < 5) {
-    rewards.hp -= 10;
-    rewards.description.push("Sono insuficiente");
+  // Sono -> Categoria 'saúde' ou 'bem-estar'
+  if (sleepHours > 0) {
+    progressUpdates.push({
+      category: 'saude',
+      type: 'sleep',
+      value: sleepHours,
+      description: `${sleepHours}h de sono`
+    });
   }
 
-  // Batimentos: Intensidade alta dá XP geral
+  // Batimentos (Treino) -> Categoria 'saúde'
   if (heartRate > 120) {
-    rewards.xp += 15;
-    rewards.description.push("Atividade intensa");
+    progressUpdates.push({
+      category: 'saude',
+      type: 'workout',
+      value: 1, // Conta como 1 treino concluído se o batimento subiu
+      description: "Treino detectado (Batimento alto)"
+    });
   }
 
-  return rewards;
+  return progressUpdates;
 }

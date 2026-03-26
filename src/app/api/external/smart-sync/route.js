@@ -1,24 +1,25 @@
 import { NextResponse } from "next/server";
-import { getProfile, applyProfileProgress, createActivity } from "../../../../lib/sqlite";
-import { processHealthMetrics } from "../../../../lib/gamification";
+import { 
+  getProfile, 
+  listGoals, 
+  updateGoal, 
+  completeGoal, 
+  createActivity 
+} from "../../../../lib/sqlite";
+import { mapHealthToGoalProgress } from "../../../../lib/gamification";
 
 function getDeviceId(req) {
   return req.headers.get("x-device-id") || "anonymous-device";
 }
 
-/**
- * Converte qualquer entrada em um número válido, mesmo se for array ou string.
- */
 function toNum(val, mode = "sum") {
   if (val === undefined || val === null) return 0;
-  
   if (Array.isArray(val)) {
     const numbers = val.map(v => (typeof v === "object" ? v.value : v)).map(Number).filter(n => !isNaN(n));
     if (numbers.length === 0) return 0;
     if (mode === "avg") return numbers.reduce((a, b) => a + b, 0) / numbers.length;
     return numbers.reduce((a, b) => a + b, 0);
   }
-
   const n = Number(val);
   return isNaN(n) ? 0 : n;
 }
@@ -31,39 +32,76 @@ export async function POST(req) {
     }
 
     const body = await req.json();
+    const goals = listGoals(deviceId);
     
-    // Suporte a múltiplas chaves (Português/Inglês) para facilitar o Atalho
-    const health = processHealthMetrics({
+    // 1. Mapear o que chegou do smartwatch para o progresso de metas
+    const updates = mapHealthToGoalProgress({
       steps: toNum(body.steps || body.passos),
       sleepHours: toNum(body.sleep || body.sono || body.sleepHours),
       heartRate: toNum(body.heart || body.batimentos || body.heartRate, "avg")
     });
 
-    if (health.xp !== 0 || health.gold !== 0 || health.hp !== 0) {
-      const updatedProfile = applyProfileProgress(deviceId, {
-        xpDelta: health.xp,
-        coinsDelta: health.gold,
-        hpDelta: health.hp
-      });
+    if (updates.length === 0) {
+      return NextResponse.json({ message: "Nenhum dado relevante recebido." });
+    }
+
+    let progressMade = false;
+    const completedGoals = [];
+
+    // 2. Tentar aplicar o progresso em metas existentes
+    for (const update of updates) {
+      // Procura uma meta ativa da mesma categoria (ex: 'saude') que não esteja concluída
+      const targetGoal = goals.find(g => 
+        g.category.toLowerCase() === update.category.toLowerCase() && 
+        g.status !== 'done'
+      );
+
+      if (targetGoal) {
+        // Se a meta for de passos, atualizamos o valor incrementalmente
+        // Se for de sono, podemos atualizar também
+        let newValue = targetGoal.current_value + (update.type === 'workout' ? 1 : update.value);
+        
+        // Garante que não ultrapasse o alvo
+        newValue = Math.min(newValue, targetGoal.target_value);
+
+        updateGoal(deviceId, targetGoal.id, {
+          ...targetGoal,
+          current_value: newValue
+        });
+
+        progressMade = true;
+
+        // 3. Se atingiu o alvo, completa a meta e gera a recompensa
+        if (newValue >= targetGoal.target_value) {
+          const result = completeGoal(deviceId, targetGoal.id);
+          completedGoals.push(result.goal.title);
+        }
+      }
+    }
+
+    if (progressMade) {
+      let logMsg = "Progresso em metas sincronizado!";
+      if (completedGoals.length > 0) {
+        logMsg = `Metas concluídas: ${completedGoals.join(", ")}! Recompensas aplicadas.`;
+      }
 
       createActivity(deviceId, {
-        title: "Sincronização de Vida",
-        status: health.hp < 0 ? "lost" : "won",
-        description: health.description.join(" • "),
-        values_text: `${health.xp >= 0 ? "+" : ""}${health.xp} XP • ${health.gold >= 0 ? "+" : ""}${health.gold} Moedas`
+        title: "Sincronização de Metas",
+        status: "won",
+        description: `Dados do Smartwatch integrados às suas metas de vida.`,
+        values_text: completedGoals.length > 0 ? "RECOMPENSA LIBERADA!" : "Progresso salvo"
       });
 
       return NextResponse.json({
-        message: "Evolução sincronizada!",
-        rewards: health,
-        profile: updatedProfile
+        message: logMsg,
+        profile: getProfile(deviceId)
       });
     }
 
-    return NextResponse.json({ message: "Sem alterações relevantes no momento." });
+    return NextResponse.json({ message: "Nenhuma meta ativa para essa atividade." });
 
   } catch (error) {
     console.error("Smart Sync Error:", error);
-    return NextResponse.json({ error: "Erro na sincronização inteligente." }, { status: 500 });
+    return NextResponse.json({ error: "Erro na sincronização de metas." }, { status: 500 });
   }
 }
