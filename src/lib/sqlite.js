@@ -671,7 +671,7 @@ export function upsertProfile(deviceId, payload) {
   return getProfile(deviceId);
 }
 
-function applyProfileProgress(
+export function applyProfileProgress(
   deviceId,
   { coinsDelta = 0, xpDelta = 0, hpDelta = 0 },
 ) {
