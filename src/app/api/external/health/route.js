@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { syncAppleHealthSteps } from "../../../../lib/sqlite";
-import { syncAppleHealthSteps } from "../../../../lib/sqlite";
+
 function getDeviceId(req) {
   return req.headers.get("x-device-id") || "anonymous-device";
 }
@@ -16,15 +16,27 @@ export async function POST(req) {
       );
     }
 
-    const deviceId = getDeviceId(req);
     const body = await req.json();
 
-    // Suporte para a chave "passos" que estamos enviando do iPhone Shortcuts
-    const passos = body.passos;
+    // Support both raw numbers, stringified numbers, or arrays from Apple Shortcuts
+    let passos = 0;
 
-    if (passos === undefined || passos === null) {
+    if (Array.isArray(body.passos)) {
+      // If the Shortcut accidentally sends the raw Health Samples array, sum their values
+      passos = body.passos.reduce((acc, curr) => {
+        const val = typeof curr === "object" ? curr.value : curr;
+        return acc + (Number(val) || 0);
+      }, 0);
+    } else if (body.passos) {
+      passos = Number(body.passos) || 0;
+    }
+
+    if (passos <= 0) {
       return NextResponse.json(
-        { error: "Nenhum dado de 'passos' (Steps) enviado no corpo." },
+        {
+          error:
+            "Nenhum dado válido de passos encontrado. Verifique seu Atalho!",
+        },
         { status: 400 },
       );
     }
