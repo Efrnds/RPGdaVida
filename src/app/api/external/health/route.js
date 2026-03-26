@@ -1,0 +1,65 @@
+import { NextResponse } from "next/server";
+import { syncAppleHealthSteps } from "../../../../lib/sqlite";
+import { syncAppleHealthSteps } from "../../../../lib/sqlite";
+function getDeviceId(req) {
+  return req.headers.get("x-device-id") || "anonymous-device";
+}
+
+export async function POST(req) {
+  try {
+    const deviceId = getDeviceId(req);
+
+    if (deviceId === "anonymous-device") {
+      return NextResponse.json(
+        { error: "Chave do RPG (x-device-id) ausente." },
+        { status: 401 },
+      );
+    }
+
+    const deviceId = getDeviceId(req);
+    const body = await req.json();
+
+    // Suporte para a chave "passos" que estamos enviando do iPhone Shortcuts
+    const passos = body.passos;
+
+    if (passos === undefined || passos === null) {
+      return NextResponse.json(
+        { error: "Nenhum dado de 'passos' (Steps) enviado no corpo." },
+        { status: 400 },
+      );
+    }
+
+    const result = syncAppleHealthSteps(deviceId, passos);
+
+    if (!result.ok) {
+      if (result.reason === "ALREADY_SYNCED_TODAY") {
+        return NextResponse.json(
+          { message: "Já sincronizado hoje. Tente novamente amanhã!" },
+          { status: 200 }, // Não é erro, só não recompensa duplo
+        );
+      }
+      if (result.reason === "NOT_ENOUGH_STEPS") {
+        return NextResponse.json(
+          { message: "Passos insuficientes para recompensas do RPG." },
+          { status: 200 },
+        );
+      }
+      return NextResponse.json(
+        { error: "Não foi possível sincronizar no momento." },
+        { status: 400 },
+      );
+    }
+
+    return NextResponse.json({
+      message: "Saúde sincronizada com sucesso!",
+      recompensas: `+${result.goldReward} moedas, +${result.xpReward} XP`,
+      profile: result.profile,
+    });
+  } catch (error) {
+    console.error("Health Sync Error:", error);
+    return NextResponse.json(
+      { error: "Falha interna ao processar Sincronização." },
+      { status: 500 },
+    );
+  }
+}

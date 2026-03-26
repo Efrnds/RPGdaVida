@@ -1403,14 +1403,56 @@ export function completeGoal(deviceId, id) {
   createActivity(deviceId, {
     title: `Meta concluída: ${goal.title}`,
     status: "won",
-    description: "Recompensas da conquista aplicadas no seu perfil.",
-    values_text: `+${goal.reward_coins} moedas • +${goal.reward_xp} XP • +5 HP`,
+    description: "Parabéns por alcançar a meta!",
+    values_text: `+${goal.reward_coins} moedas • +${goal.reward_xp} XP`,
   });
 
-  return {
-    goal: db.prepare("SELECT * FROM goals WHERE id = ?").get(id),
-    profile,
-  };
+  return { goal: { ...goal, status: "done" }, profile };
+}
+
+export function syncAppleHealthSteps(deviceId, steps) {
+  ensureSeedData(deviceId);
+
+  const parsedSteps = toInteger(steps, 0);
+  if (parsedSteps <= 0) return { ok: false, reason: "NO_STEPS" };
+
+  const dayStart = new Date();
+  dayStart.setHours(0, 0, 0, 0);
+  const dayStartMs = dayStart.getTime();
+
+  const alreadySynced = db
+    .prepare(
+      `
+    SELECT * FROM activities 
+    WHERE device_id = ? AND title = 'Sincronização Apple Health' 
+    AND created_at >= ? LIMIT 1
+  `,
+    )
+    .get(deviceId, dayStartMs);
+
+  if (alreadySynced) {
+    return { ok: false, reason: "ALREADY_SYNCED_TODAY" };
+  }
+
+  const xpReward = Math.min(30, Math.floor(parsedSteps / 1000) * 3);
+  const goldReward = Math.min(15, Math.floor(parsedSteps / 2000) * 2);
+
+  if (xpReward <= 0 && goldReward <= 0)
+    return { ok: false, reason: "NOT_ENOUGH_STEPS" };
+
+  const profile = applyProfileProgress(deviceId, {
+    coinsDelta: goldReward,
+    xpDelta: xpReward,
+  });
+
+  createActivity(deviceId, {
+    title: "Sincronização Apple Health",
+    status: "won",
+    description: `Você sincronizou ${parsedSteps} passos do seu celular hoje!`,
+    values_text: `+${goldReward} moedas • +${xpReward} XP`,
+  });
+
+  return { ok: true, profile, xpReward, goldReward };
 }
 
 export function listParaItems(deviceId) {
